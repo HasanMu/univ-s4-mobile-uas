@@ -1,0 +1,46 @@
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+*.log
+*.hprof
+*.tgz
+*.jar
+*.war
+*.ear
+*.iml
+*.iws
+*.ipr
+
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Local
+local.properties
+
+# IDE - Android Studio / IntelliJ
+.idea/
+*.swp
+*.swo
+*~
+
+# Android
+/captures
+.externalNativeBuild
+.cxx
+*.keystore
+google-services.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# OpenCode / Claude Memory
+.lcm/
+
+# Others
+out/
+.navigation/
