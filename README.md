@@ -1,1 +1,1 @@
-usecase on available on docs folder !
+Usecase diagram available at docs folder !
