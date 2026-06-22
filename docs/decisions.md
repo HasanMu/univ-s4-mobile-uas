@@ -51,13 +51,21 @@ com.kelompok1.materialku/
 └── util/                          (PdfExporter, formatter, dst.)
 ```
 
-## Screen List (8 screen sesuai PRD)
+## Screen List (9 screen)
 
 1. **Login** — autentikasi, redirect by role
-2. **Dashboard** — menu per role
+2. **Dashboard** — menu per role + hero stats
 3. **Material List + Form** — CRUD material
 4. **Kategori & Satuan** — CRUD referensi
 5. **POS** — input transaksi + struk
 6. **Stok List + Mutasi** — lihat stok, catat mutasi
 7. **Laporan** — analitik + ekspor PDF
 8. **User Management** — CRUD user (admin only)
+9. **Settings** — pengaturan aplikasi (mode gelap, tentang)
+
+## Dokumen Desain
+
+- `docs/designs/design_system.md` — Design system lengkap (color, typography, spacing, komponen, wireframe)
+- `docs/designs/mockup.pen` — Mockup interaktif (Pencil Editor)
+- `docs/uml/usecase-materialku.png` — Diagram use case
+- `docs/decisions.md` — File ini (keputusan implementasi)
