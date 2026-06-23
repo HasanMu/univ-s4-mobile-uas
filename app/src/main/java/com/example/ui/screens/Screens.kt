@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import androidx.activity.compose.BackHandler
 import android.content.Context
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
@@ -64,14 +65,125 @@ fun formatRupiah(value: Double): String {
 }
 
 @Composable
+fun commonTextFieldColors(darkMode: Boolean) = OutlinedTextFieldDefaults.colors(
+    focusedTextColor = if (darkMode) Color.White else Color(0xFF212121),
+    unfocusedTextColor = if (darkMode) Color.White else Color(0xFF212121),
+    focusedBorderColor = AccentYellow,
+    unfocusedBorderColor = if (darkMode) Color.DarkGray else Color.LightGray,
+    focusedContainerColor = if (darkMode) Color(0xFF2B2D31) else Color.White,
+    unfocusedContainerColor = if (darkMode) Color(0xFF2B2D31) else Color.White,
+    focusedLabelColor = AccentYellow,
+    unfocusedLabelColor = Color.Gray,
+    focusedPlaceholderColor = Color.Gray,
+    unfocusedPlaceholderColor = Color.Gray,
+    disabledTextColor = if (darkMode) Color.LightGray else Color.DarkGray,
+    disabledContainerColor = if (darkMode) Color(0xFF1E1F22) else Color(0xFFEEEEEE),
+    disabledBorderColor = if (darkMode) Color.DarkGray else Color.LightGray
+)
+
+@Composable
+fun MaterialKuLogo(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .size(100.dp)
+            .background(
+                brush = androidx.compose.ui.graphics.Brush.linearGradient(
+                    colors = listOf(Color(0xFFFFA000), Color(0xFFFFCC00))
+                ),
+                shape = RoundedCornerShape(24.dp)
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Canvas(modifier = Modifier.size(56.dp)) {
+            val width = size.width
+            val height = size.height
+            
+            // Isometric Stacked Bricks / Materials representing construction inventory
+            val path1 = androidx.compose.ui.graphics.Path().apply {
+                moveTo(width * 0.15f, height * 0.65f)
+                lineTo(width * 0.5f, height * 0.45f)
+                lineTo(width * 0.85f, height * 0.65f)
+                lineTo(width * 0.5f, height * 0.85f)
+                close()
+            }
+            drawPath(path = path1, color = Color(0xFF212121))
+
+            val path2 = androidx.compose.ui.graphics.Path().apply {
+                moveTo(width * 0.15f, height * 0.45f)
+                lineTo(width * 0.5f, height * 0.25f)
+                lineTo(width * 0.85f, height * 0.45f)
+                lineTo(width * 0.5f, height * 0.65f)
+                close()
+            }
+            drawPath(path = path2, color = Color(0xFF424242))
+
+            val path3 = androidx.compose.ui.graphics.Path().apply {
+                moveTo(width * 0.25f, height * 0.35f)
+                lineTo(width * 0.5f, height * 0.2f)
+                lineTo(width * 0.75f, height * 0.35f)
+                lineTo(width * 0.5f, height * 0.5f)
+                close()
+            }
+            drawPath(path = path3, color = Color(0xFFFFA000))
+            
+            drawCircle(
+                color = Color.White,
+                radius = 3.dp.toPx(),
+                center = androidx.compose.ui.geometry.Offset(width * 0.5f, height * 0.45f)
+            )
+        }
+    }
+}
+
+@Composable
 fun AppContent(viewModel: MainViewModel) {
     val context = LocalContext.current
     val currentScreen by viewModel.currentScreen
     val user by viewModel.currentUser
 
+    // BackHandler to intercept hardware back button: navigatess 1 step back instead of exiting
+    BackHandler(enabled = currentScreen != Screen.Login && currentScreen != Screen.Dashboard) {
+        if (currentScreen == Screen.TambahMaterial) {
+            viewModel.currentScreen.value = Screen.MaterialList
+        } else {
+            viewModel.currentScreen.value = Screen.Dashboard
+        }
+    }
+
     // Light/Dark Color Scheme wrapper
     val appBg = if (viewModel.darkMode.value) Color(0xFF121212) else Color(0xFFF5F6FA)
     val textPrimary = if (viewModel.darkMode.value) Color.White else Color(0xFF212121)
+
+    // Role-based routing guard
+    val currentRole = user?.role
+    LaunchedEffect(currentScreen, user) {
+        if (user == null) {
+            if (currentScreen != Screen.Login) {
+                viewModel.currentScreen.value = Screen.Login
+            }
+        } else {
+            val isAllowed = when (currentScreen) {
+                is Screen.Login -> false // Logged in users shouldn't go back to Login without explicitly logging out
+                is Screen.Dashboard -> true
+                is Screen.Stok -> true // Everyone can view stock
+                is Screen.Pengaturan -> true // Everyone can view Settings
+                is Screen.MaterialList -> currentRole == "ROLE_ADMIN"
+                is Screen.TambahMaterial -> currentRole == "ROLE_ADMIN"
+                is Screen.KategoriList -> currentRole == "ROLE_ADMIN"
+                is Screen.POS -> currentRole == "ROLE_ADMIN" || currentRole == "ROLE_KASIR"
+                is Screen.Laporan -> currentRole == "ROLE_ADMIN" || currentRole == "ROLE_MANAGER"
+                is Screen.UserManagement -> currentRole == "ROLE_ADMIN"
+            }
+            if (!isAllowed) {
+                if (currentScreen == Screen.Login) {
+                    viewModel.currentScreen.value = Screen.Dashboard
+                } else {
+                    Toast.makeText(context, "Akses ditolak untuk role ${currentRole?.replace("ROLE_", "") ?: "USER"}", Toast.LENGTH_LONG).show()
+                    viewModel.currentScreen.value = Screen.Dashboard
+                }
+            }
+        }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -88,6 +200,7 @@ fun AppContent(viewModel: MainViewModel) {
                 is Screen.Laporan -> LaporanScreen(viewModel)
                 is Screen.Stok -> StokScreen(viewModel)
                 is Screen.UserManagement -> UserManagementScreen(viewModel)
+                is Screen.Pengaturan -> PengaturanScreen(viewModel)
             }
         }
     }
@@ -114,21 +227,8 @@ fun LoginScreen(viewModel: MainViewModel) {
         verticalArrangement = Arrangement.Center
     ) {
         Spacer(modifier = Modifier.height(48.dp))
-
-        // Large Box Logo
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .background(AccentYellow, RoundedCornerShape(24.dp)),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.Build,
-                contentDescription = "Logo",
-                tint = Color.Black,
-                modifier = Modifier.size(54.dp)
-            )
-        }
+        
+        MaterialKuLogo()
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -255,6 +355,14 @@ fun LoginScreen(viewModel: MainViewModel) {
     }
 }
 
+data class DashboardMenuItem(
+    val title: String,
+    val icon: androidx.compose.ui.graphics.vector.ImageVector,
+    val iconBg: androidx.compose.ui.graphics.Color,
+    val iconTint: androidx.compose.ui.graphics.Color,
+    val screen: Screen
+)
+
 // ==========================================
 // 2. DASHBOARD SCREEN
 // ==========================================
@@ -269,6 +377,28 @@ fun DashboardScreen(viewModel: MainViewModel) {
     val countMaterial = materials.size
     val countTransactions = transactions.size
     val countCritical = materials.count { it.isStokKritis() }
+
+    // Determine permitted menu items dynamically based on role
+    val menuItems = remember(currentUser) {
+        val role = currentUser?.role ?: ""
+        mutableListOf<DashboardMenuItem>().apply {
+            if (role == "ROLE_ADMIN") {
+                add(DashboardMenuItem("Material", Icons.Default.Build, SoftYellowBg, AccentYellow, Screen.MaterialList))
+                add(DashboardMenuItem("Kategori", Icons.Default.Lock, SoftPurpleBg, AccordPurple, Screen.KategoriList))
+            }
+            if (role == "ROLE_ADMIN" || role == "ROLE_KASIR") {
+                add(DashboardMenuItem("POS", Icons.Default.ShoppingCart, SoftTealBg, AccordTeal, Screen.POS))
+            }
+            if (role == "ROLE_ADMIN" || role == "ROLE_MANAGER") {
+                add(DashboardMenuItem("Laporan", Icons.Default.Star, SoftOrangeBg, AccordOrange, Screen.Laporan))
+            }
+            // Stok is visible to all roles
+            add(DashboardMenuItem("Stok", Icons.Default.Home, SoftBlueBg, AccordBlue, Screen.Stok))
+            if (role == "ROLE_ADMIN") {
+                add(DashboardMenuItem("User", Icons.Default.Person, SoftYellowBg, AccentYellow, Screen.UserManagement))
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -316,10 +446,10 @@ fun DashboardScreen(viewModel: MainViewModel) {
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
-                    IconButton(onClick = { viewModel.darkMode.value = !viewModel.darkMode.value }) {
+                    IconButton(onClick = { viewModel.currentScreen.value = Screen.Pengaturan }) {
                         Icon(
-                            imageVector = if (viewModel.darkMode.value) Icons.Default.Info else Icons.Default.Refresh,
-                            contentDescription = "Theme",
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Pengaturan",
                             tint = Color.White
                         )
                     }
@@ -359,95 +489,27 @@ fun DashboardScreen(viewModel: MainViewModel) {
 
             // Grid items
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    MenuTile(
-                        modifier = Modifier.weight(1f),
-                        title = "Material",
-                        icon = Icons.Default.Build,
-                        iconBg = SoftYellowBg,
-                        iconTint = AccentYellow,
-                        onClick = { viewModel.currentScreen.value = Screen.MaterialList }
-                    )
-                    MenuTile(
-                        modifier = Modifier.weight(1f),
-                        title = "Kategori",
-                        icon = Icons.Default.Lock,
-                        iconBg = SoftPurpleBg,
-                        iconTint = AccordPurple,
-                        onClick = { viewModel.currentScreen.value = Screen.KategoriList }
-                    )
-                }
-
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    MenuTile(
-                        modifier = Modifier.weight(1f),
-                        title = "POS",
-                        icon = Icons.Default.ShoppingCart,
-                        iconBg = SoftTealBg,
-                        iconTint = AccordTeal,
-                        onClick = { viewModel.currentScreen.value = Screen.POS }
-                    )
-                    MenuTile(
-                        modifier = Modifier.weight(1f),
-                        title = "Laporan",
-                        icon = Icons.Default.Star,
-                        iconBg = SoftOrangeBg,
-                        iconTint = AccordOrange,
-                        onClick = { viewModel.currentScreen.value = Screen.Laporan }
-                    )
-                }
-
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    MenuTile(
-                        modifier = Modifier.weight(1f),
-                        title = "Stok",
-                        icon = Icons.Default.Home,
-                        iconBg = SoftBlueBg,
-                        iconTint = AccordBlue,
-                        onClick = { viewModel.currentScreen.value = Screen.Stok }
-                    )
-                    
-                    // Admin Only Module
-                    if (currentUser?.role == "ROLE_ADMIN") {
-                        MenuTile(
-                            modifier = Modifier.weight(1f),
-                            title = "User",
-                            icon = Icons.Default.Person,
-                            iconBg = SoftYellowBg,
-                            iconTint = AccentYellow,
-                            onClick = { viewModel.currentScreen.value = Screen.UserManagement }
-                        )
-                    } else {
-                        Box(modifier = Modifier.weight(1f)) // Empty block for alignment
+                val chunks = menuItems.chunked(2)
+                chunks.forEach { rowItems ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        rowItems.forEach { item ->
+                            MenuTile(
+                                modifier = Modifier.weight(1f),
+                                title = item.title,
+                                icon = item.icon,
+                                iconBg = item.iconBg,
+                                iconTint = item.iconTint,
+                                isDark = viewModel.darkMode.value,
+                                onClick = { viewModel.currentScreen.value = item.screen }
+                            )
+                        }
+                        if (rowItems.size < 2) {
+                            Box(modifier = Modifier.weight(1f)) // Placeholder for balance
+                        }
                     }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // Logout Button
-            OutlinedButton(
-                onClick = { viewModel.logout() },
-                border = BorderStroke(1.dp, Color.LightGray),
-                colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.White),
-                shape = RoundedCornerShape(24.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(54.dp)
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.ExitToApp,
-                        contentDescription = "Keluar",
-                        tint = Color(0xFFC62828)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "KELUAR",
-                        color = Color(0xFFC62828),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 15.sp
-                    )
                 }
             }
         }
@@ -474,9 +536,11 @@ fun StatCard(modifier: Modifier = Modifier, title: String, count: String, valueC
 }
 
 @Composable
-fun MenuTile(modifier: Modifier = Modifier, title: String, icon: ImageVector, iconBg: Color, iconTint: Color, onClick: () -> Unit) {
+fun MenuTile(modifier: Modifier = Modifier, title: String, icon: ImageVector, iconBg: Color, iconTint: Color, isDark: Boolean = false, onClick: () -> Unit) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isDark) Color(0xFF2E3035) else Color.White
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
@@ -494,10 +558,12 @@ fun MenuTile(modifier: Modifier = Modifier, title: String, icon: ImageVector, ic
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Slightly darker background for the badge in dark mode
+                val resolvedIconBg = if (isDark) Color(0xFF1E1F22) else iconBg
                 Box(
                     modifier = Modifier
                         .size(42.dp)
-                        .background(iconBg, RoundedCornerShape(12.dp)),
+                        .background(resolvedIconBg, RoundedCornerShape(12.dp)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(imageVector = icon, contentDescription = title, tint = iconTint, modifier = Modifier.size(20.dp))
@@ -505,7 +571,7 @@ fun MenuTile(modifier: Modifier = Modifier, title: String, icon: ImageVector, ic
                 Icon(
                     imageVector = Icons.Default.Send,
                     contentDescription = "Go",
-                    tint = Color.LightGray,
+                    tint = if (isDark) Color.DarkGray else Color.LightGray,
                     modifier = Modifier.size(16.dp)
                 )
             }
@@ -513,7 +579,7 @@ fun MenuTile(modifier: Modifier = Modifier, title: String, icon: ImageVector, ic
                 text = title,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = if (isDark) Color.White else Color.Black
             )
         }
     }
@@ -529,6 +595,7 @@ fun MaterialListScreen(viewModel: MainViewModel) {
     val categories by viewModel.kategori.collectAsState()
     val units by viewModel.satuan.collectAsState()
     val suppliers by viewModel.supplier.collectAsState()
+    val currentUser by viewModel.currentUser
 
     var searchQuery by viewModel.searchQuery
     var selectedCategoryFilter by viewModel.selectedCategoryFilter
@@ -625,6 +692,7 @@ fun MaterialListScreen(viewModel: MainViewModel) {
                             categoryName = catName,
                             unitName = satName,
                             supplierName = supName,
+                            showActions = (currentUser?.role == "ROLE_ADMIN"),
                             onEdit = {
                                 viewModel.edittingMaterial.value = mat
                                 viewModel.currentScreen.value = Screen.TambahMaterial
@@ -637,18 +705,20 @@ fun MaterialListScreen(viewModel: MainViewModel) {
                 }
             }
 
-            // FAB
-            FloatingActionButton(
-                onClick = {
-                    viewModel.edittingMaterial.value = null
-                    viewModel.currentScreen.value = Screen.TambahMaterial
-                },
-                containerColor = AccentYellow,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(24.dp)
-            ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Material", tint = Color.Black)
+            // FAB only for ADMIN
+            if (currentUser?.role == "ROLE_ADMIN") {
+                FloatingActionButton(
+                    onClick = {
+                        viewModel.edittingMaterial.value = null
+                        viewModel.currentScreen.value = Screen.TambahMaterial
+                    },
+                    containerColor = AccentYellow,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(24.dp)
+                ) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add Material", tint = Color.Black)
+                }
             }
         }
     }
@@ -685,6 +755,7 @@ fun MaterialCard(
     categoryName: String,
     unitName: String,
     supplierName: String,
+    showActions: Boolean = true,
     onEdit: () -> Unit,
     onDelete: () -> Unit
 ) {
@@ -765,20 +836,22 @@ fun MaterialCard(
                 }
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
-            Divider(color = Color.LightGray, thickness = 0.5.dp)
-            Spacer(modifier = Modifier.height(4.dp))
+            if (showActions) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Divider(color = Color.LightGray, thickness = 0.5.dp)
+                Spacer(modifier = Modifier.height(4.dp))
 
-            // Action row
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                IconButton(onClick = onEdit) {
-                    Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit", tint = Color.Gray)
-                }
-                IconButton(onClick = onDelete) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFC62828))
+                // Action row
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    IconButton(onClick = onEdit) {
+                        Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit", tint = Color.Gray)
+                    }
+                    IconButton(onClick = onDelete) {
+                        Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFC62828))
+                    }
                 }
             }
         }
@@ -792,6 +865,11 @@ fun MaterialCard(
 fun TambahMaterialScreen(viewModel: MainViewModel) {
     val target = viewModel.edittingMaterial.value
     val isEdit = target != null
+    val isDark = viewModel.darkMode.value
+
+    val appBg = if (isDark) Color(0xFF121212) else Color(0xFFF5F6FA)
+    val textPrimary = if (isDark) Color.White else Color(0xFF212121)
+    val cardBg = if (isDark) Color(0xFF1E1F22) else Color.White
 
     val categories by viewModel.kategori.collectAsState()
     val units by viewModel.satuan.collectAsState()
@@ -811,6 +889,7 @@ fun TambahMaterialScreen(viewModel: MainViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(appBg)
             .verticalScroll(rememberScrollState())
     ) {
         Row(
@@ -820,12 +899,17 @@ fun TambahMaterialScreen(viewModel: MainViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { viewModel.currentScreen.value = Screen.MaterialList }) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = textPrimary
+                )
             }
             Text(
                 text = if (isEdit) "Ubah Material" else "Tambah Material",
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = textPrimary
             )
         }
 
@@ -839,8 +923,9 @@ fun TambahMaterialScreen(viewModel: MainViewModel) {
                 value = kode,
                 onValueChange = { if (!isEdit) kode = it },
                 enabled = !isEdit,
-                leadingIcon = { Icon(Icons.Default.Info, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Default.Info, contentDescription = null, tint = if (isDark) AccentYellow else Color.Gray) },
                 singleLine = true,
+                colors = commonTextFieldColors(isDark),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -849,9 +934,10 @@ fun TambahMaterialScreen(viewModel: MainViewModel) {
             OutlinedTextField(
                 value = nama,
                 onValueChange = { nama = it },
-                placeholder = { Text("Masukkan nama material...") },
-                leadingIcon = { Icon(Icons.Default.Build, contentDescription = null) },
+                placeholder = { Text("Masukkan nama material...", color = Color.Gray) },
+                leadingIcon = { Icon(Icons.Default.Build, contentDescription = null, tint = if (isDark) AccentYellow else Color.Gray) },
                 singleLine = true,
+                colors = commonTextFieldColors(isDark),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -861,20 +947,22 @@ fun TambahMaterialScreen(viewModel: MainViewModel) {
                 value = hargaRow,
                 onValueChange = { hargaRow = it },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                leadingIcon = { Icon(Icons.Default.ShoppingCart, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Default.ShoppingCart, contentDescription = null, tint = if (isDark) AccentYellow else Color.Gray) },
                 singleLine = true,
+                colors = commonTextFieldColors(isDark),
                 modifier = Modifier.fillMaxWidth()
             )
 
             // Initial and Critical Stock
             if (!isEdit) {
-                FormLabel(text = "STOK AWAL")
+                FormLabel(text = "STOK AWAL *")
                 OutlinedTextField(
                     value = stokRow,
                     onValueChange = { stokRow = it },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    leadingIcon = { Icon(Icons.Default.Home, contentDescription = null) },
+                    leadingIcon = { Icon(Icons.Default.Home, contentDescription = null, tint = if (isDark) AccentYellow else Color.Gray) },
                     singleLine = true,
+                    colors = commonTextFieldColors(isDark),
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -884,8 +972,9 @@ fun TambahMaterialScreen(viewModel: MainViewModel) {
                 value = minStokRow,
                 onValueChange = { minStokRow = it },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                leadingIcon = { Icon(Icons.Default.Warning, contentDescription = null) },
+                leadingIcon = { Icon(Icons.Default.Warning, contentDescription = null, tint = if (isDark) AccentYellow else Color.Gray) },
                 singleLine = true,
+                colors = commonTextFieldColors(isDark),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -894,6 +983,7 @@ fun TambahMaterialScreen(viewModel: MainViewModel) {
             SimpleDropdownSelection(
                 options = categories.map { it.id to it.nama },
                 selectedId = selectedKategoriId,
+                isDark = isDark,
                 onSelect = { selectedKategoriId = it }
             )
 
@@ -901,6 +991,7 @@ fun TambahMaterialScreen(viewModel: MainViewModel) {
             SimpleDropdownSelection(
                 options = units.map { it.id to it.nama },
                 selectedId = selectedSatuanId,
+                isDark = isDark,
                 onSelect = { selectedSatuanId = it }
             )
 
@@ -908,6 +999,7 @@ fun TambahMaterialScreen(viewModel: MainViewModel) {
             SimpleDropdownSelection(
                 options = suppliers.map { it.id to it.nama },
                 selectedId = selectedSupplierId,
+                isDark = isDark,
                 onSelect = { selectedSupplierId = it }
             )
 
@@ -978,12 +1070,16 @@ fun FormLabel(text: String) {
 }
 
 @Composable
-fun SimpleDropdownSelection(options: List<Pair<Int, String>>, selectedId: Int, onSelect: (Int) -> Unit) {
+fun SimpleDropdownSelection(options: List<Pair<Int, String>>, selectedId: Int, isDark: Boolean = false, onSelect: (Int) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     val currentText = options.find { it.first == selectedId }?.second ?: "Pilih"
+    val textPrimary = if (isDark) Color.White else Color(0xFF212121)
+    val cardBg = if (isDark) Color(0xFF1E1F22) else Color.White
 
     Box(modifier = Modifier.fillMaxWidth()) {
         OutlinedCard(
+            colors = CardDefaults.outlinedCardColors(containerColor = cardBg),
+            border = BorderStroke(1.dp, if (isDark) Color.DarkGray else Color.LightGray),
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { expanded = true }
@@ -995,15 +1091,23 @@ fun SimpleDropdownSelection(options: List<Pair<Int, String>>, selectedId: Int, o
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = currentText, color = Color.Black)
-                Icon(imageVector = Icons.Default.Info, contentDescription = "Drop")
+                Text(text = currentText, color = textPrimary)
+                Icon(
+                    imageVector = Icons.Default.Info,
+                    contentDescription = "Drop",
+                    tint = if (isDark) AccentYellow else Color.Gray
+                )
             }
         }
 
-        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.background(cardBg)
+        ) {
             options.forEach { item ->
                 DropdownMenuItem(
-                    text = { Text(item.second) },
+                    text = { Text(item.second, color = textPrimary) },
                     onClick = {
                         onSelect(item.first)
                         expanded = false
@@ -1678,6 +1782,7 @@ fun StokScreen(viewModel: MainViewModel) {
     val materials by viewModel.materials.collectAsState()
     val units by viewModel.satuan.collectAsState()
     val ctx = LocalContext.current
+    val currentUser by viewModel.currentUser
 
     var searchQ by remember { mutableStateOf("") }
     var showMutationDialog by remember { mutableStateOf(false) }
@@ -1790,22 +1895,24 @@ fun StokScreen(viewModel: MainViewModel) {
                                 }
                             }
 
-                            // Yellow "Catat Mutasi" button
-                            Button(
-                                onClick = {
-                                    activeMatForMutation = mat
-                                    qtyInput = ""
-                                    mutationKind = "MASUK"
-                                    notesInput = ""
-                                    showMutationDialog = true
-                                },
-                                colors = ButtonDefaults.buttonColors(containerColor = SoftYellowBg),
-                                border = BorderStroke(1.dp, AccentYellow),
-                                shape = RoundedCornerShape(12.dp)
-                            ) {
-                                Icon(imageVector = Icons.Default.Edit, contentDescription = null, tint = AccentYellow, modifier = Modifier.size(16.dp))
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = "Catat Mutasi", color = Color.Black, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                            // Yellow "Catat Mutasi" button - only for Admin and Gudang roles
+                            if (currentUser?.role == "ROLE_ADMIN" || currentUser?.role == "ROLE_GUDANG") {
+                                Button(
+                                    onClick = {
+                                        activeMatForMutation = mat
+                                        qtyInput = ""
+                                        mutationKind = "MASUK"
+                                        notesInput = ""
+                                        showMutationDialog = true
+                                    },
+                                    colors = ButtonDefaults.buttonColors(containerColor = SoftYellowBg),
+                                    border = BorderStroke(1.dp, AccentYellow),
+                                    shape = RoundedCornerShape(12.dp)
+                                ) {
+                                    Icon(imageVector = Icons.Default.Edit, contentDescription = null, tint = AccentYellow, modifier = Modifier.size(16.dp))
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text(text = "Catat Mutasi", color = Color.Black, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                                }
                             }
                         }
                     }
@@ -1906,13 +2013,26 @@ fun StokScreen(viewModel: MainViewModel) {
 fun UserManagementScreen(viewModel: MainViewModel) {
     val users by viewModel.users.collectAsState()
     val ctx = LocalContext.current
+    val isDark = viewModel.darkMode.value
+
+    val appBg = if (isDark) Color(0xFF121212) else Color(0xFFF5F6FA)
+    val textPrimary = if (isDark) Color.White else Color(0xFF212121)
+    val cardBg = if (isDark) Color(0xFF1E1F22) else Color.White
 
     var showAddDialog by remember { mutableStateOf(false) }
+    var showEditDialog by remember { mutableStateOf(false) }
+    var selectedUserForEdit by remember { mutableStateOf<User?>(null) }
+
     var usernameInput by remember { mutableStateOf("") }
     var passwordInput by remember { mutableStateOf("") }
     var selectedRole by remember { mutableStateOf("ROLE_KASIR") } // ROLE_ADMIN, ROLE_KASIR, ROLE_GUDANG, ROLE_MANAGER
+    var passwordVisible by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(appBg)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -1920,12 +2040,17 @@ fun UserManagementScreen(viewModel: MainViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { viewModel.currentScreen.value = Screen.Dashboard }) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = textPrimary
+                )
             }
             Text(
                 text = "Manajemen User",
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = textPrimary
             )
         }
 
@@ -1941,7 +2066,7 @@ fun UserManagementScreen(viewModel: MainViewModel) {
                     val initialLetter = usr.username.firstOrNull()?.uppercase() ?: "U"
 
                     Card(
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        colors = CardDefaults.cardColors(containerColor = cardBg),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Row(
@@ -1970,8 +2095,17 @@ fun UserManagementScreen(viewModel: MainViewModel) {
                                 Spacer(modifier = Modifier.width(12.dp))
 
                                 Column {
-                                    Text(text = usr.username.replaceFirstChar { it.uppercase() }, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                                    Text(text = "@${usr.username}", fontSize = 12.sp, color = Color.Gray)
+                                    Text(
+                                        text = usr.username.replaceFirstChar { it.uppercase() },
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 16.sp,
+                                        color = textPrimary
+                                    )
+                                    Text(
+                                        text = "@${usr.username}",
+                                        fontSize = 12.sp,
+                                        color = Color.Gray
+                                    )
                                 }
                             }
 
@@ -2000,6 +2134,19 @@ fun UserManagementScreen(viewModel: MainViewModel) {
                                 }
 
                                 Spacer(modifier = Modifier.width(8.dp))
+
+                                 // Edit button
+                                IconButton(onClick = {
+                                    selectedUserForEdit = usr
+                                    usernameInput = usr.username
+                                    passwordInput = usr.passwordPlain
+                                    selectedRole = usr.role
+                                    showEditDialog = true
+                                }) {
+                                    Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit User", tint = AccentYellow)
+                                }
+
+                                Spacer(modifier = Modifier.width(4.dp))
 
                                 // Disable deleting self
                                 if (usr.username != viewModel.currentUser.value?.username) {
@@ -2035,7 +2182,7 @@ fun UserManagementScreen(viewModel: MainViewModel) {
     if (showAddDialog) {
         Dialog(onDismissRequest = { showAddDialog = false }) {
             Card(
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = cardBg),
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -2045,15 +2192,16 @@ fun UserManagementScreen(viewModel: MainViewModel) {
                     modifier = Modifier.padding(20.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text(text = "Tambah User Baru", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(text = "Tambah User Baru", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = textPrimary)
 
-                    Divider(color = Color.LightGray)
+                    Divider(color = if (isDark) Color.DarkGray else Color.LightGray)
 
                     // Username Input
                     OutlinedTextField(
                         value = usernameInput,
                         onValueChange = { usernameInput = it },
-                        placeholder = { Text("Username...") },
+                        placeholder = { Text("Username...", color = Color.Gray) },
+                        colors = commonTextFieldColors(isDark),
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -2061,9 +2209,20 @@ fun UserManagementScreen(viewModel: MainViewModel) {
                     OutlinedTextField(
                         value = passwordInput,
                         onValueChange = { passwordInput = it },
-                        placeholder = { Text("Password...") },
+                        placeholder = { Text("Password...", color = Color.Gray) },
+                        colors = commonTextFieldColors(isDark),
                         modifier = Modifier.fillMaxWidth(),
-                        visualTransformation = PasswordVisualTransformation()
+                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            TextButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Text(
+                                    text = if (passwordVisible) "SEMBUNYI" else "LIHAT",
+                                    color = if (isDark) AccentYellow else Color(0xFF1976D2),
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
                     )
 
                     // Role selection dropdown
@@ -2071,19 +2230,26 @@ fun UserManagementScreen(viewModel: MainViewModel) {
                     var expandedRoleMenu by remember { mutableStateOf(false) }
                     Box(modifier = Modifier.fillMaxWidth()) {
                         OutlinedCard(
+                            colors = CardDefaults.outlinedCardColors(containerColor = cardBg),
+                            border = BorderStroke(1.dp, if (isDark) Color.DarkGray else Color.LightGray),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable { expandedRoleMenu = true }
                         ) {
                             Text(
                                 text = selectedRole.replace("ROLE_", ""),
-                                modifier = Modifier.padding(16.dp)
+                                modifier = Modifier.padding(16.dp),
+                                color = textPrimary
                             )
                         }
-                        DropdownMenu(expanded = expandedRoleMenu, onDismissRequest = { expandedRoleMenu = false }) {
+                        DropdownMenu(
+                            expanded = expandedRoleMenu,
+                            onDismissRequest = { expandedRoleMenu = false },
+                            modifier = Modifier.background(cardBg)
+                        ) {
                             listOf("ROLE_ADMIN", "ROLE_KASIR", "ROLE_GUDANG", "ROLE_MANAGER").forEach { r ->
                                 DropdownMenuItem(
-                                    text = { Text(r.replace("ROLE_", "")) },
+                                    text = { Text(r.replace("ROLE_", ""), color = textPrimary) },
                                     onClick = {
                                         selectedRole = r
                                         expandedRoleMenu = false
@@ -2100,7 +2266,7 @@ fun UserManagementScreen(viewModel: MainViewModel) {
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         OutlinedButton(onClick = { showAddDialog = false }, modifier = Modifier.weight(1f)) {
-                            Text("Batal", color = Color.Black)
+                            Text("Batal", color = if (isDark) Color.White else Color.Black)
                         }
                         Button(
                             onClick = {
@@ -2117,6 +2283,444 @@ fun UserManagementScreen(viewModel: MainViewModel) {
                     }
                 }
             }
+        }
+    }
+
+    // Modal Edit user dialog
+    if (showEditDialog && selectedUserForEdit != null) {
+        Dialog(onDismissRequest = { showEditDialog = false }) {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = cardBg),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Text(text = "Edit Pengguna", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = textPrimary)
+
+                    Divider(color = if (isDark) Color.DarkGray else Color.LightGray)
+
+                    // Username Input
+                    Text(text = "USERNAME", fontSize = 11.sp, color = Color.Gray, fontWeight = FontWeight.Bold)
+                    OutlinedTextField(
+                        value = usernameInput,
+                        onValueChange = { usernameInput = it },
+                        placeholder = { Text("Username...", color = Color.Gray) },
+                        colors = commonTextFieldColors(isDark),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    // Password plain Input
+                    Text(text = "PASSWORD (KATA SANDI)", fontSize = 11.sp, color = Color.Gray, fontWeight = FontWeight.Bold)
+                    OutlinedTextField(
+                        value = passwordInput,
+                        onValueChange = { passwordInput = it },
+                        placeholder = { Text("Isi kata sandi baru...", color = Color.Gray) },
+                        colors = commonTextFieldColors(isDark),
+                        modifier = Modifier.fillMaxWidth(),
+                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            TextButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Text(
+                                    text = if (passwordVisible) "SEMBUNYI" else "LIHAT",
+                                    color = if (isDark) AccentYellow else Color(0xFF1976D2),
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    )
+
+                    // Role selection dropdown
+                    Text(text = "Pilih Role Pengguna", fontSize = 11.sp, color = Color.Gray, fontWeight = FontWeight.Bold)
+                    var expandedRoleMenu by remember { mutableStateOf(false) }
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        OutlinedCard(
+                            colors = CardDefaults.outlinedCardColors(containerColor = cardBg),
+                            border = BorderStroke(1.dp, if (isDark) Color.DarkGray else Color.LightGray),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { expandedRoleMenu = true }
+                        ) {
+                            Text(
+                                text = selectedRole.replace("ROLE_", ""),
+                                modifier = Modifier.padding(16.dp),
+                                color = textPrimary
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = expandedRoleMenu,
+                            onDismissRequest = { expandedRoleMenu = false },
+                            modifier = Modifier.background(cardBg)
+                        ) {
+                            listOf("ROLE_ADMIN", "ROLE_KASIR", "ROLE_GUDANG", "ROLE_MANAGER").forEach { r ->
+                                DropdownMenuItem(
+                                    text = { Text(r.replace("ROLE_", ""), color = textPrimary) },
+                                    onClick = {
+                                        selectedRole = r
+                                        expandedRoleMenu = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        OutlinedButton(onClick = { showEditDialog = false }, modifier = Modifier.weight(1f)) {
+                            Text("Batal", color = if (isDark) Color.White else Color.Black)
+                        }
+                        Button(
+                            onClick = {
+                                viewModel.updateUser(
+                                    selectedUserForEdit!!,
+                                    usernameInput,
+                                    if (passwordInput.isBlank()) null else passwordInput,
+                                    selectedRole
+                                ) { ok, msg ->
+                                    Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show()
+                                    if (ok) showEditDialog = false
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(containerColor = AccentYellow),
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text("Simpan", color = Color.Black)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ==========================================
+// 10. SETTINGS / PENGATURAN SCREEN
+// ==========================================
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PengaturanScreen(viewModel: MainViewModel) {
+    val currentUser by viewModel.currentUser
+    val isDark = viewModel.darkMode.value
+    val context = LocalContext.current
+
+    val appBg = if (isDark) Color(0xFF121212) else Color(0xFFF5F6FA)
+    val textPrimary = if (isDark) Color.White else Color(0xFF212121)
+    val cardBg = if (isDark) Color(0xFF1E1F22) else Color.White
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(appBg)
+            .verticalScroll(rememberScrollState())
+    ) {
+        // Header
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp, start = 8.dp, end = 16.dp, bottom = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = { viewModel.currentScreen.value = Screen.Dashboard }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = textPrimary
+                )
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "Pengaturan",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                color = textPrimary
+            )
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // User Card Section (Dark Elegant Palette as shown in mockup)
+            Card(
+                colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1F22)),
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val initialChar = currentUser?.username?.firstOrNull()?.uppercase() ?: "U"
+                    Box(
+                        modifier = Modifier
+                            .size(60.dp)
+                            .background(AccentYellow, CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = initialChar,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            fontSize = 24.sp
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    Column {
+                        Text(
+                            text = currentUser?.username?.replaceFirstChar { it.uppercase() } ?: "User",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            color = Color.White
+                        )
+                        Text(
+                            text = currentUser?.role?.replace("ROLE_", "")?.replaceFirstChar { it.uppercase() } ?: "User",
+                            fontSize = 14.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // TAMPILAN Section
+            Text(
+                text = "TAMPILAN",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray,
+                letterSpacing = 1.sp
+            )
+
+            Card(
+                colors = CardDefaults.cardColors(containerColor = cardBg),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .background(SoftYellowBg, RoundedCornerShape(10.dp)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "🌙", fontSize = 18.sp)
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = "Mode Gelap",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = textPrimary
+                        )
+                    }
+
+                    Switch(
+                        checked = viewModel.darkMode.value,
+                        onCheckedChange = { viewModel.darkMode.value = it },
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = Color.Black,
+                            checkedTrackColor = AccentYellow,
+                            uncheckedThumbColor = Color.Gray,
+                            uncheckedTrackColor = Color.LightGray
+                        )
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // TENTANG Section
+            Text(
+                text = "TENTANG",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray,
+                letterSpacing = 1.sp
+            )
+
+            Card(
+                colors = CardDefaults.cardColors(containerColor = cardBg),
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column {
+                    // Application Version Row
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .background(SoftTealBg, RoundedCornerShape(10.dp)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Info,
+                                    contentDescription = "Version",
+                                    tint = AccordTeal,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = "Versi Aplikasi",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = textPrimary
+                            )
+                        }
+                        Text(
+                            text = "v1.0.0",
+                            fontSize = 14.sp,
+                            color = Color.Gray
+                        )
+                    }
+
+                    Divider(color = if (isDark) Color.DarkGray else Color(0xFFEEEEEE))
+
+                    // Privacy Policy Row
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                Toast.makeText(context, "Membuka Kebijakan Privasi...", Toast.LENGTH_SHORT).show()
+                            }
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .background(SoftBlueBg, RoundedCornerShape(10.dp)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.List,
+                                    contentDescription = "Privacy",
+                                    tint = AccordBlue,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = "Kebijakan Privasi",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = textPrimary
+                            )
+                        }
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowRight,
+                            contentDescription = "Go",
+                            tint = Color.Gray
+                        )
+                    }
+
+                    Divider(color = if (isDark) Color.DarkGray else Color(0xFFEEEEEE))
+
+                    // Help Row
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                Toast.makeText(context, "Membuka Menu Bantuan...", Toast.LENGTH_SHORT).show()
+                            }
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .background(SoftPurpleBg, RoundedCornerShape(10.dp)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Call,
+                                    contentDescription = "Help",
+                                    tint = AccordPurple,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = "Bantuan",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = textPrimary
+                            )
+                        }
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowRight,
+                            contentDescription = "Go",
+                            tint = Color.Gray
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Logout Button
+            OutlinedButton(
+                onClick = { viewModel.logout() },
+                border = BorderStroke(1.dp, Color(0xFFC62828)),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = if (isDark) Color(0xFF2B2D31) else Color.White
+                ),
+                shape = RoundedCornerShape(24.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(54.dp)
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.ExitToApp,
+                        contentDescription = "Keluar",
+                        tint = Color(0xFFC62828)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "KELUAR",
+                        color = Color(0xFFC62828),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

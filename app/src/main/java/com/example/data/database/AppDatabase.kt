@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
         ItemTransaksi::class,
         StokLog::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -65,10 +65,10 @@ abstract class AppDatabase : RoomDatabase() {
                 
                 // 1. Seed Users
                 val userDao = database.userDao()
-                userDao.insertUser(User(id = 1, username = "hasan", passwordHash = HashUtils.sha256("admin123"), role = "ROLE_ADMIN", aktif = true))
-                userDao.insertUser(User(id = 2, username = "budi", passwordHash = HashUtils.sha256("kasir123"), role = "ROLE_KASIR", aktif = true))
-                userDao.insertUser(User(id = 3, username = "siti", passwordHash = HashUtils.sha256("gudang123"), role = "ROLE_GUDANG", aktif = true))
-                userDao.insertUser(User(id = 4, username = "rina", passwordHash = HashUtils.sha256("manager123"), role = "ROLE_MANAGER", aktif = true))
+                userDao.insertUser(User(id = 1, username = "hasan", passwordHash = HashUtils.sha256("admin123"), passwordPlain = "admin123", role = "ROLE_ADMIN", aktif = true))
+                userDao.insertUser(User(id = 2, username = "budi", passwordHash = HashUtils.sha256("kasir123"), passwordPlain = "kasir123", role = "ROLE_KASIR", aktif = true))
+                userDao.insertUser(User(id = 3, username = "siti", passwordHash = HashUtils.sha256("gudang123"), passwordPlain = "gudang123", role = "ROLE_GUDANG", aktif = true))
+                userDao.insertUser(User(id = 4, username = "rina", passwordHash = HashUtils.sha256("manager123"), passwordPlain = "manager123", role = "ROLE_MANAGER", aktif = true))
 
                 // 2. Seed Kategori
                 val kategoriDao = database.kategoriDao()

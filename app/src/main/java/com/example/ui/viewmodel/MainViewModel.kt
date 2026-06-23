@@ -28,6 +28,7 @@ sealed class Screen {
     object Laporan : Screen()
     object Stok : Screen()
     object UserManagement : Screen()
+    object Pengaturan : Screen()
 }
 
 class MainViewModel(
@@ -123,6 +124,7 @@ class MainViewModel(
                 User(
                     username = username.trim().lowercase(),
                     passwordHash = HashUtils.sha256(passwordPlain),
+                    passwordPlain = passwordPlain,
                     role = role,
                     aktif = true
                 )
@@ -134,6 +136,47 @@ class MainViewModel(
     fun deleteUser(user: User) {
         viewModelScope.launch {
             userRepository.deleteUser(user)
+        }
+    }
+
+    fun updateUser(user: User, newUsername: String, passwordPlain: String?, role: String, onResult: (Boolean, String) -> Unit) {
+        if (newUsername.isBlank()) {
+            onResult(false, "Username tidak boleh kosong")
+            return
+        }
+        viewModelScope.launch {
+            val trimmedLowerUsername = newUsername.trim().lowercase()
+            val existing = userRepository.getUserByUsername(trimmedLowerUsername)
+            if (existing != null && existing.id != user.id) {
+                onResult(false, "Username sudah digunakan oleh pengguna lain")
+                return@launch
+            }
+            
+            val finalPasswordHash = if (!passwordPlain.isNullOrBlank()) {
+                HashUtils.sha256(passwordPlain)
+            } else {
+                user.passwordHash
+            }
+
+            val finalPasswordPlain = if (!passwordPlain.isNullOrBlank()) {
+                passwordPlain
+            } else {
+                user.passwordPlain
+            }
+            
+            val updatedUser = user.copy(
+                username = trimmedLowerUsername,
+                passwordHash = finalPasswordHash,
+                passwordPlain = finalPasswordPlain,
+                role = role
+            )
+            userRepository.saveUser(updatedUser)
+            
+            // If the updated user is the currently logged in user, refresh the current user state
+            if (currentUser.value?.id == user.id) {
+                currentUser.value = updatedUser
+            }
+            onResult(true, "User berhasil diperbarui")
         }
     }
 

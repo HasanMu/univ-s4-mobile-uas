@@ -8,6 +8,7 @@ data class User(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val username: String,
     val passwordHash: String,
+    val passwordPlain: String = "",
     val role: String, // ROLE_ADMIN, ROLE_KASIR, ROLE_GUDANG, ROLE_MANAGER
     val aktif: Boolean = true,
     val lastLogin: String = ""
