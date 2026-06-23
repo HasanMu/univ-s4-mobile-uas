@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <!-- AppBar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:background="@color/background"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="@dimen/icon_lg"
+            android:layout_height="@dimen/icon_lg"
+            android:contentDescription="@string/action_back"
+            android:src="@android:drawable/ic_media_previous"
+            app:tint="@color/on_background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:text="@string/settings_title"
+            android:textAppearance="@style/TextAppearance.Materialku.Title" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_xl">
+
+            <!-- Profile Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_xl"
+                app:cardBackgroundColor="@color/background_dark"
+                app:cardCornerRadius="@dimen/radius_card"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_card_lg">
+
+                    <FrameLayout
+                        android:layout_width="@dimen/avatar_large"
+                        android:layout_height="@dimen/avatar_large"
+                        android:background="@color/primary">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="H"
+                            android:textAppearance="@style/TextAppearance.Materialku.Title"
+                            android:textColor="@color/on_primary" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_lg"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hasan"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/on_background_dark" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:text="@string/role_admin"
+                            android:textAppearance="@style/TextAppearance.Materialku.BodySmall"
+                            android:textColor="#718096" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tampilan Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:text="@string/settings_tampilan"
+                android:textAppearance="@style/TextAppearance.Materialku.LabelMicro"
+                android:textColor="@color/on_surface_variant" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Materialku.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_xl"
+                app:cardPadding="@dimen/padding_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="@dimen/icon_wrap_sm"
+                        android:layout_height="@dimen/icon_wrap_sm"
+                        android:background="@color/primary_container">
+
+                        <!-- TODO: moon icon -->
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_md"
+                        android:layout_weight="1"
+                        android:text="@string/settings_mode_gelap"
+                        android:textAppearance="@style/TextAppearance.Materialku.Body"
+                        android:textColor="@color/on_surface" />
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchDarkMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tentang Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:text="@string/settings_tentang"
+                android:textAppearance="@style/TextAppearance.Materialku.LabelMicro"
+                android:textColor="@color/on_surface_variant" />
+
+            <!-- Versi -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Materialku.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                app:cardPadding="@dimen/padding_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="@dimen/icon_wrap_sm"
+                        android:layout_height="@dimen/icon_wrap_sm"
+                        android:background="@color/secondary_container">
+
+                        <!-- TODO: info icon -->
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_md"
+                        android:layout_weight="1"
+                        android:text="@string/settings_versi"
+                        android:textAppearance="@style/TextAppearance.Materialku.Body"
+                        android:textColor="@color/on_surface" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_version"
+                        android:textAppearance="@style/TextAppearance.Materialku.BodySmall"
+                        android:textColor="@color/on_surface_variant" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Privasi -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rowPrivasi"
+                style="@style/Widget.Materialku.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardPadding="@dimen/padding_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="@dimen/icon_wrap_sm"
+                        android:layout_height="@dimen/icon_wrap_sm"
+                        android:background="@color/secondary_container">
+
+                        <!-- TODO: file-text icon -->
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_md"
+                        android:layout_weight="1"
+                        android:text="@string/settings_privasi"
+                        android:textAppearance="@style/TextAppearance.Materialku.Body"
+                        android:textColor="@color/on_surface" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_md"
+                        android:layout_height="@dimen/icon_md"
+                        android:src="@android:drawable/ic_media_play"
+                        app:tint="@color/outline" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Bantuan -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rowBantuan"
+                style="@style/Widget.Materialku.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardPadding="@dimen/padding_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="@dimen/icon_wrap_sm"
+                        android:layout_height="@dimen/icon_wrap_sm"
+                        android:background="@color/secondary_container">
+
+                        <!-- TODO: help icon -->
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_md"
+                        android:layout_weight="1"
+                        android:text="@string/settings_bantuan"
+                        android:textAppearance="@style/TextAppearance.Materialku.Body"
+                        android:textColor="@color/on_surface" />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_md"
+                        android:layout_height="@dimen/icon_md"
+                        android:src="@android:drawable/ic_media_play"
+                        app:tint="@color/outline" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

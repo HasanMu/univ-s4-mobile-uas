@@ -1,5 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary — Amber -->
+    <color name="primary">#F59E0B</color>
+    <color name="on_primary">#1A1D21</color>
+    <color name="primary_container">#FEF3C7</color>
+    <color name="on_primary_container">#78350F</color>
+
+    <!-- Secondary — Steel Blue -->
+    <color name="secondary">#4A5568</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="secondary_container">#EDF2F7</color>
+    <color name="on_secondary_container">#1A202C</color>
+
+    <!-- Tertiary — Deep Violet -->
+    <color name="tertiary">#7C3AED</color>
+    <color name="on_tertiary">#FFFFFF</color>
+
+    <!-- Error -->
+    <color name="error">#DC2626</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="error_container">#FEE2E2</color>
+
+    <!-- Background -->
+    <color name="background">#F7F8FA</color>
+    <color name="on_background">#1A1D21</color>
+    <color name="background_dark">#1A1D21</color>
+    <color name="on_background_dark">#F7F8FA</color>
+
+    <!-- Surface -->
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#1A1D21</color>
+    <color name="surface_variant">#EDF2F7</color>
+    <color name="on_surface_variant">#718096</color>
+
+    <!-- Outline -->
+    <color name="outline">#CBD5E0</color>
+    <color name="outline_variant">#E2E8F0</color>
+
+    <!-- Status -->
+    <color name="success">#059669</color>
+    <color name="warning">#D97706</color>
+
+    <!-- Role-based -->
+    <color name="role_admin">#F59E0B</color>
+    <color name="role_kasir">#059669</color>
+    <color name="role_gudang">#D97706</color>
+    <color name="role_manager">#7C3AED</color>
+
+    <!-- Dark theme card bg -->
+    <color name="dark_card">#252830</color>
+    <color name="dark_card_stroke">#3D4149</color>
+
+    <!-- Light badge backgrounds -->
+    <color name="badge_aman_bg">#E6FFFA</color>
+    <color name="badge_kritis_bg">#FEE2E2</color>
+    <color name="badge_manager_bg">#F3E8FF</color>
+    <color name="badge_gudang_bg">#FFFAF0</color>
+
+    <!-- Legacy -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_sm">8dp</dimen>
+    <dimen name="spacing_md">12dp</dimen>
+    <dimen name="spacing_lg">16dp</dimen>
+    <dimen name="spacing_xl">24dp</dimen>
+    <dimen name="spacing_2xl">32dp</dimen>
+    <dimen name="spacing_3xl">48dp</dimen>
+
+    <!-- Component sizes -->
+    <dimen name="app_bar_height">60dp</dimen>
+    <dimen name="bottom_bar_height">80dp</dimen>
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="avatar_size">48dp</dimen>
+    <dimen name="avatar_large">56dp</dimen>
+    <dimen name="icon_wrap">44dp</dimen>
+    <dimen name="icon_wrap_sm">40dp</dimen>
+
+    <!-- Corner radius -->
+    <dimen name="radius_card">16dp</dimen>
+    <dimen name="radius_card_sm">14dp</dimen>
+    <dimen name="radius_button">27dp</dimen>
+    <dimen name="radius_button_sm">24dp</dimen>
+    <dimen name="radius_badge">10dp</dimen>
+    <dimen name="radius_chip">20dp</dimen>
+    <dimen name="radius_input">12dp</dimen>
+    <dimen name="radius_avatar">28dp</dimen>
+
+    <!-- Heights -->
+    <dimen name="height_button">52dp</dimen>
+    <dimen name="height_input">52dp</dimen>
+    <dimen name="height_menu_card">130dp</dimen>
+    <dimen name="height_toggle">28dp</dimen>
+
+    <!-- Card padding -->
+    <dimen name="padding_card">18dp</dimen>
+    <dimen name="padding_card_lg">20dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="text_headline">26sp</dimen>
+    <dimen name="text_title">20sp</dimen>
+    <dimen name="text_title_sm">17sp</dimen>
+    <dimen name="text_body">15sp</dimen>
+    <dimen name="text_body_sm">13sp</dimen>
+    <dimen name="text_caption">12sp</dimen>
+    <dimen name="text_micro">11sp</dimen>
+    <dimen name="text_stat">20sp</dimen>
+    <dimen name="text_stat_lg">40sp</dimen>
+
+    <!-- Icon sizes -->
+    <dimen name="icon_sm">18dp</dimen>
+    <dimen name="icon_md">20dp</dimen>
+    <dimen name="icon_lg">24dp</dimen>
+    <dimen name="icon_xl">40dp</dimen>
+    <dimen name="logo_size">88dp</dimen>
+</resources>
