@@ -95,7 +95,7 @@ class MainViewModel(
                 
                 currentUser.value = updatedUser
                 currentScreen.value = Screen.Dashboard
-                onResult(true, "Sugeng rawuh, ${user.username}")
+                onResult(true, "Selamat datang, ${user.username}")
             } else {
                 onResult(false, "Password salah")
             }
