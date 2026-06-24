@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <!-- Auth -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.kelompok1.materialku.presentation.auth.LoginFragment"
+        android:label="@string/nav_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_login_to_dashboard"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- Dashboard -->
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.kelompok1.materialku.presentation.dashboard.DashboardFragment"
+        android:label="@string/nav_dashboard"
+        tools:layout="@layout/fragment_dashboard">
+        <action android:id="@+id/action_dashboard_to_material" app:destination="@id/materialListFragment" />
+        <action android:id="@+id/action_dashboard_to_kategori" app:destination="@id/kategoriFragment" />
+        <action android:id="@+id/action_dashboard_to_pos" app:destination="@id/posFragment" />
+        <action android:id="@+id/action_dashboard_to_stok" app:destination="@id/stokListFragment" />
+        <action android:id="@+id/action_dashboard_to_laporan" app:destination="@id/laporanFragment" />
+        <action android:id="@+id/action_dashboard_to_user" app:destination="@id/userFragment" />
+        <action android:id="@+id/action_dashboard_to_settings" app:destination="@id/settingsFragment" />
+        <action android:id="@+id/action_dashboard_to_login" app:destination="@id/loginFragment" app:popUpTo="@id/dashboardFragment" app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- Material -->
+    <fragment
+        android:id="@+id/materialListFragment"
+        android:name="com.kelompok1.materialku.presentation.material.MaterialListFragment"
+        android:label="@string/material_title"
+        tools:layout="@layout/fragment_material_list">
+        <action android:id="@+id/action_material_to_form" app:destination="@id/materialFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/materialFormFragment"
+        android:name="com.kelompok1.materialku.presentation.material.MaterialFormFragment"
+        android:label="@string/material_add"
+        tools:layout="@layout/fragment_material_form" />
+
+    <!-- Kategori -->
+    <fragment
+        android:id="@+id/kategoriFragment"
+        android:name="com.kelompok1.materialku.presentation.kategori.KategoriFragment"
+        android:label="@string/kategori_title"
+        tools:layout="@layout/fragment_kategori" />
+
+    <!-- POS -->
+    <fragment
+        android:id="@+id/posFragment"
+        android:name="com.kelompok1.materialku.presentation.pos.PosFragment"
+        android:label="@string/pos_title"
+        tools:layout="@layout/fragment_pos" />
+
+    <!-- Stok -->
+    <fragment
+        android:id="@+id/stokListFragment"
+        android:name="com.kelompok1.materialku.presentation.stok.StokListFragment"
+        android:label="@string/stok_title"
+        tools:layout="@layout/fragment_stok_list" />
+
+    <!-- Laporan -->
+    <fragment
+        android:id="@+id/laporanFragment"
+        android:name="com.kelompok1.materialku.presentation.laporan.LaporanFragment"
+        android:label="@string/laporan_title"
+        tools:layout="@layout/fragment_laporan" />
+
+    <!-- User -->
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.kelompok1.materialku.presentation.user.UserFragment"
+        android:label="@string/user_title"
+        tools:layout="@layout/fragment_user" />
+
+    <!-- Settings -->
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.kelompok1.materialku.presentation.settings.SettingsFragment"
+        android:label="@string/settings_title"
+        tools:layout="@layout/fragment_settings" />
+
+</navigation>

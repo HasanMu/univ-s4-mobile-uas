@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- AppBar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_height"
+            android:background="@color/background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/icon_lg"
+                android:layout_height="@dimen/icon_lg"
+                android:contentDescription="@string/action_back"
+                android:src="@android:drawable/ic_media_previous"
+                app:tint="@color/on_background" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:layout_weight="1"
+                android:text="@string/material_title"
+                android:textAppearance="@style/TextAppearance.Materialku.Title" />
+
+            <ImageView
+                android:id="@+id/btnSearch"
+                android:layout_width="@dimen/icon_md"
+                android:layout_height="@dimen/icon_md"
+                android:contentDescription="@string/action_search"
+                android:src="@android:drawable/ic_menu_search"
+                app:tint="@color/on_background" />
+        </LinearLayout>
+
+        <!-- Filter Chips -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/spacing_lg"
+            android:paddingBottom="@dimen/spacing_md"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chipSemua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    android:background="@color/primary"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="8dp"
+                    android:text="@string/stok_filter_semua"
+                    android:textColor="@color/on_primary"
+                    android:textAppearance="@style/TextAppearance.Materialku.Caption"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/chipBahan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    android:background="@color/surface"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="8dp"
+                    android:text="Bahan"
+                    android:textColor="@color/on_surface_variant"
+                    android:textAppearance="@style/TextAppearance.Materialku.Caption" />
+
+                <TextView
+                    android:id="@+id/chipAlat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    android:background="@color/surface"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="8dp"
+                    android:text="Alat"
+                    android:textColor="@color/on_surface_variant"
+                    android:textAppearance="@style/TextAppearance.Materialku.Caption" />
+
+                <TextView
+                    android:id="@+id/chipLainnya"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/surface"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="8dp"
+                    android:text="Lainnya"
+                    android:textColor="@color/on_surface_variant"
+                    android:textAppearance="@style/TextAppearance.Materialku.Caption" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:padding="@dimen/spacing_lg"
+            android:paddingBottom="80dp" />
+    </LinearLayout>
+
+    <!-- FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/spacing_lg"
+        android:backgroundTint="@color/primary"
+        android:contentDescription="@string/material_add"
+        android:src="@android:drawable/ic_menu_add"
+        app:tint="@color/on_primary" />
+
+</FrameLayout>

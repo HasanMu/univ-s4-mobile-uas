@@ -1,3 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">materialku</string>
+    <string name="app_name">MaterialKu</string>
+    <string name="app_tagline">SISTEM MANAJEMEN MATERIAL</string>
+
+    <!-- Login -->
+    <string name="login_greeting">Selamat datang,</string>
+    <string name="login_username">USERNAME</string>
+    <string name="login_password">PASSWORD</string>
+    <string name="login_username_hint">Masukkan username</string>
+    <string name="login_password_hint">Masukkan password</string>
+    <string name="login_button">MASUK</string>
+    <string name="login_version">v1.0.0</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_menu_title">MENU UTAMA</string>
+    <string name="dashboard_stat_material">Material</string>
+    <string name="dashboard_stat_transaksi">Transaksi</string>
+    <string name="dashboard_stat_kritis">Kritis</string>
+    <string name="dashboard_logout">KELUAR</string>
+
+    <!-- Menu items -->
+    <string name="menu_material">Material</string>
+    <string name="menu_kategori">Kategori</string>
+    <string name="menu_pos">POS</string>
+    <string name="menu_laporan">Laporan</string>
+    <string name="menu_stok">Stok</string>
+    <string name="menu_user">User</string>
+    <string name="menu_settings">Pengaturan</string>
+
+    <!-- Material -->
+    <string name="material_title">Material</string>
+    <string name="material_add">Tambah Material</string>
+    <string name="material_edit">Edit Material</string>
+    <string name="material_kode">KODE MATERIAL</string>
+    <string name="material_nama">NAMA MATERIAL *</string>
+    <string name="material_kategori">KATEGORI *</string>
+    <string name="material_satuan">SATUAN *</string>
+    <string name="material_supplier">SUPPLIER</string>
+    <string name="material_harga">HARGA (Rp) *</string>
+    <string name="material_stok_awal">STOK AWAL</string>
+    <string name="material_stok_min">STOK MINIMUM</string>
+    <string name="material_save">SIMPAN</string>
+    <string name="material_search">Cari material…</string>
+    <string name="material_empty">Belum ada material</string>
+    <string name="material_empty_desc">Tekan + untuk menambah</string>
+
+    <!-- Kategori -->
+    <string name="kategori_title">Kategori &amp; Satuan</string>
+    <string name="kategori_section">Kategori</string>
+    <string name="satuan_section">Satuan</string>
+    <string name="kategori_add">+ Tambah Kategori</string>
+    <string name="satuan_add">+ Tambah Satuan</string>
+
+    <!-- POS -->
+    <string name="pos_title">Transaksi Baru</string>
+    <string name="pos_search">Cari material…</string>
+    <string name="pos_cart">Keranjang</string>
+    <string name="pos_checkout">Checkout</string>
+    <string name="pos_pay">BAYAR &amp; CETAK</string>
+    <string name="pos_draft">SIMPAN DRAFT</string>
+    <string name="pos_total">Total</string>
+    <string name="pos_items">%1$d item</string>
+
+    <!-- Stok -->
+    <string name="stok_title">Stok Material</string>
+    <string name="stok_search">Cari material…</string>
+    <string name="stok_mutasi">Catat Mutasi</string>
+    <string name="stok_mutasi_title">Catat Mutasi Stok</string>
+    <string name="stok_tipe">TIPE MUTASI *</string>
+    <string name="stok_jumlah">JUMLAH *</string>
+    <string name="stok_alasan">ALASAN</string>
+    <string name="stok_setelah">Stok setelah: %1$s</string>
+    <string name="stok_filter_semua">Semua</string>
+    <string name="stok_filter_kritis">Kritis</string>
+    <string name="stok_filter_aman">Aman</string>
+
+    <!-- Laporan -->
+    <string name="laporan_title">Laporan</string>
+    <string name="laporan_periode">PERIODE</string>
+    <string name="laporan_total">TOTAL TRANSAKSI</string>
+    <string name="laporan_pendapatan">PENDAPATAN</string>
+    <string name="laporan_terjual">MATERIAL TERJUAL</string>
+    <string name="laporan_trx_terbaru">TRANSAKSI TERBARU</string>
+    <string name="laporan_stok_kritis">STOK KRITIS</string>
+    <string name="laporan_export">Ekspor PDF</string>
+    <string name="laporan_periode_hari">Hari Ini</string>
+    <string name="laporan_periode_minggu">Minggu Ini</string>
+    <string name="laporan_periode_bulan">Bulan Ini</string>
+    <string name="laporan_periode_custom">Custom</string>
+
+    <!-- User -->
+    <string name="user_title">Manajemen User</string>
+    <string name="user_add">Tambah User</string>
+    <string name="user_nama">NAMA *</string>
+    <string name="user_username">USERNAME *</string>
+    <string name="user_password">PASSWORD *</string>
+    <string name="user_role">ROLE *</string>
+    <string name="user_save">SIMPAN</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Pengaturan</string>
+    <string name="settings_tampilan">TAMPILAN</string>
+    <string name="settings_mode_gelap">Mode Gelap</string>
+    <string name="settings_tentang">TENTANG</string>
+    <string name="settings_versi">Versi Aplikasi</string>
+    <string name="settings_privasi">Kebijakan Privasi</string>
+    <string name="settings_bantuan">Bantuan</string>
+
+    <!-- Common -->
+    <string name="badge_aman">AMAN</string>
+    <string name="badge_kritis">KRITIS</string>
+    <string name="status_selesai">SELESAI</string>
+    <string name="status_draft">DRAFT</string>
+    <string name="action_save">SIMPAN</string>
+    <string name="action_batal">Batal</string>
+    <string name="action_hapus">Hapus</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_back">Kembali</string>
+    <string name="action_search">Cari</string>
+    <string name="loading">Memuat…</string>
+    <string name="error_generic">Terjadi kesalahan</string>
+    <string name="success_save">Data berhasil disimpan</string>
+    <string name="success_delete">Data berhasil dihapus</string>
+
+    <!-- Roles -->
+    <string name="role_admin">Admin</string>
+    <string name="role_kasir">Kasir</string>
+    <string name="role_gudang">Gudang</string>
+    <string name="role_manager">Manager</string>
+
+    <!-- Navigation -->
+    <string name="nav_login">Login</string>
+    <string name="nav_dashboard">Dashboard</string>
 </resources>
