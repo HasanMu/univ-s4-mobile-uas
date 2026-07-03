@@ -102,11 +102,22 @@
     <!-- User -->
     <string name="user_title">Manajemen User</string>
     <string name="user_add">Tambah User</string>
+    <string name="user_edit">Edit User</string>
     <string name="user_nama">NAMA *</string>
     <string name="user_username">USERNAME *</string>
     <string name="user_password">PASSWORD *</string>
     <string name="user_role">ROLE *</string>
     <string name="user_save">SIMPAN</string>
+    <string name="user_form_username">Username</string>
+    <string name="user_form_password">Password</string>
+    <string name="user_form_password_helper_new">Minimal 4 karakter</string>
+    <string name="user_form_password_helper_edit">Kosongkan bila tidak diubah</string>
+    <string name="user_form_role">Role</string>
+    <string name="user_form_aktif">Aktif</string>
+    <string name="user_status_aktif">Aktif</string>
+    <string name="user_status_nonaktif">Nonaktif</string>
+    <string name="user_delete_title">Hapus user?</string>
+    <string name="user_delete_message">Akun %1$s akan dihapus permanen.</string>
 
     <!-- Settings -->
     <string name="settings_title">Pengaturan</string>
