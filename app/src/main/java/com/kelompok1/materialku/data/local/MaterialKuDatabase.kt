@@ -61,18 +61,35 @@ abstract class MaterialKuDatabase : RoomDatabase() {
                 .addCallback(object : Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        seedScope.launch(Dispatchers.IO) {
-                            with(instance) {
-                                userDao().insertAll(DatabaseSeeder.defaultUsers(hasher))
-                                kategoriDao().insertAll(DatabaseSeeder.defaultKategoris())
-                                satuanDao().insertAll(DatabaseSeeder.defaultSatuans())
-                                supplierDao().insertAll(DatabaseSeeder.defaultSuppliers())
-                            }
-                        }
+                        seed(seedScope, hasher) { instance }
+                    }
+
+                    // Room memanggil ini (bukan onCreate) saat destructive
+                    // migration menimpa DB lama. Tanpa override ini, tabel
+                    // yang baru di-recreate akan kosong dan user nggak bisa
+                    // login karena tabel `user` nihil.
+                    override fun onDestructiveMigration(db: SupportSQLiteDatabase) {
+                        super.onDestructiveMigration(db)
+                        seed(seedScope, hasher) { instance }
                     }
                 })
                 .build()
             return instance
+        }
+
+        private fun seed(
+            scope: CoroutineScope,
+            hasher: PasswordHasher,
+            dbProvider: () -> MaterialKuDatabase
+        ) {
+            scope.launch(Dispatchers.IO) {
+                with(dbProvider()) {
+                    userDao().insertAll(DatabaseSeeder.defaultUsers(hasher))
+                    kategoriDao().insertAll(DatabaseSeeder.defaultKategoris())
+                    satuanDao().insertAll(DatabaseSeeder.defaultSatuans())
+                    supplierDao().insertAll(DatabaseSeeder.defaultSuppliers())
+                }
+            }
         }
     }
 }
