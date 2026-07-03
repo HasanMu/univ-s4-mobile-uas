@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
@@ -28,6 +31,7 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (useStatusBarInset()) applyStatusBarInsetToRoot()
         setupViews()
         observeViewModel()
     }
@@ -47,6 +51,34 @@ abstract class BaseFragment<VB : ViewBinding>(
      * Default false = bg terang, icon gelap. Override di fragment berbg gelap.
      */
     protected open fun useLightStatusBarIcons(): Boolean = false
+
+    /**
+     * True (default) = BaseFragment auto-add tinggi status bar ke paddingTop
+     * root view. Override false untuk fragment yang handle insets sendiri:
+     * - LoginFragment: pakai fitsSystemWindows di NestedScrollView-nya
+     * - DashboardFragment: applyStatusBarInsetToHero() ke section tertentu
+     *   (bukan root) supaya hero gelap tetep extend ke atas status bar.
+     */
+    protected open fun useStatusBarInset(): Boolean = true
+
+    private fun applyStatusBarInsetToRoot() {
+        val root = binding.root
+        val originalTop = root.paddingTop
+        val originalBottom = root.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+            val sys = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            // IME menang atas nav bar — pick yang lebih besar, supaya
+            // keyboard yang buka mendorong konten (termasuk bottom bar
+            // & FAB) ke atas cukup untuk tetep visible.
+            val bottom = maxOf(sys.bottom, ime.bottom)
+            v.updatePadding(
+                top = originalTop + sys.top,
+                bottom = originalBottom + bottom
+            )
+            insets
+        }
+    }
 
     protected fun hideKeyboard() {
         val view = activity?.currentFocus ?: binding.root
