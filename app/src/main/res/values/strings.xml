@@ -94,6 +94,11 @@
     <string name="stok_filter_semua">Semua</string>
     <string name="stok_filter_kritis">Kritis</string>
     <string name="stok_filter_aman">Aman</string>
+    <string name="stok_masuk">MASUK</string>
+    <string name="stok_keluar">KELUAR</string>
+    <string name="stok_mutasi_material">Material</string>
+    <string name="stok_mutasi_saved">Mutasi tersimpan. Stok saat ini: %1$s</string>
+    <string name="stok_mutasi_no_material">Belum ada material — tambah dulu di menu Material</string>
 
     <!-- Laporan -->
     <string name="laporan_title">Laporan</string>
