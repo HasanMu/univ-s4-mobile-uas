@@ -41,6 +41,7 @@ Thumbs.db
 # OpenCode / Claude Memory
 .lcm/
 .opencode/
+.claude
 
 # Others
 out/
