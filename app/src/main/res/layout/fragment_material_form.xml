@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -19,6 +20,7 @@
             android:id="@+id/btnBack"
             android:layout_width="@dimen/icon_lg"
             android:layout_height="@dimen/icon_lg"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_back"
             android:src="@android:drawable/ic_media_previous"
             app:tint="@color/on_background" />
@@ -31,7 +33,6 @@
             android:textAppearance="@style/TextAppearance.Materialku.Title" />
     </LinearLayout>
 
-    <!-- Form -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -53,6 +54,7 @@
                 android:textColor="@color/on_surface_variant" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilKode"
                 style="@style/Widget.Materialku.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +63,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_input"
-                    android:hint="MAT-001" />
+                    android:hint="MAT-001"
+                    android:inputType="text"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Nama -->
@@ -74,6 +78,7 @@
                 android:textColor="@color/on_surface_variant" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNama"
                 style="@style/Widget.Materialku.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +86,9 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_input" />
+                    android:layout_height="@dimen/height_input"
+                    android:inputType="text"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Kategori Dropdown -->
@@ -94,16 +101,17 @@
                 android:textColor="@color/on_surface_variant" />
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Materialku.TextInputLayout"
+                android:id="@+id/tilKategori"
+                style="@style/Widget.Materialku.TextInputLayout.ExposedDropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_md"
-                app:endIconMode="dropdown_menu">
+                android:layout_marginBottom="@dimen/spacing_md">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_input"
-                    android:hint="Pilih kategori" />
+                    android:hint="Pilih kategori"
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Satuan Dropdown -->
@@ -116,16 +124,17 @@
                 android:textColor="@color/on_surface_variant" />
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Materialku.TextInputLayout"
+                android:id="@+id/tilSatuan"
+                style="@style/Widget.Materialku.TextInputLayout.ExposedDropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_md"
-                app:endIconMode="dropdown_menu">
+                android:layout_marginBottom="@dimen/spacing_md">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_input"
-                    android:hint="Pilih satuan" />
+                    android:hint="Pilih satuan"
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Supplier Dropdown -->
@@ -138,16 +147,17 @@
                 android:textColor="@color/on_surface_variant" />
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Materialku.TextInputLayout"
+                android:id="@+id/tilSupplier"
+                style="@style/Widget.Materialku.TextInputLayout.ExposedDropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_md"
-                app:endIconMode="dropdown_menu">
+                android:layout_marginBottom="@dimen/spacing_md">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_input"
-                    android:hint="Pilih supplier" />
+                    android:hint="Pilih supplier"
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Harga -->
@@ -160,6 +170,7 @@
                 android:textColor="@color/on_surface_variant" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilHarga"
                 style="@style/Widget.Materialku.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -168,7 +179,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_input"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Stok Awal -->
@@ -181,6 +193,7 @@
                 android:textColor="@color/on_surface_variant" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilStokAwal"
                 style="@style/Widget.Materialku.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -189,7 +202,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_input"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Stok Min -->
@@ -202,16 +216,30 @@
                 android:textColor="@color/on_surface_variant" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilStokMin"
                 style="@style/Widget.Materialku.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_xl">
+                android:layout_marginBottom="@dimen/spacing_lg">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_input"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Error -->
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:textAppearance="@style/TextAppearance.Materialku.BodySmall"
+                android:textColor="@color/error"
+                android:visibility="gone"
+                tools:text="Kode 'MTR-001' sudah dipakai material lain"
+                tools:visibility="visible" />
 
             <!-- Save Button -->
             <com.google.android.material.button.MaterialButton
