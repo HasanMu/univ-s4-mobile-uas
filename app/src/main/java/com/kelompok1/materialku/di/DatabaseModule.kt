@@ -3,6 +3,10 @@ package com.kelompok1.materialku.di
 import android.content.Context
 import com.kelompok1.materialku.data.local.MaterialKuDatabase
 import com.kelompok1.materialku.data.local.PreferencesDataStore
+import com.kelompok1.materialku.data.local.dao.KategoriDao
+import com.kelompok1.materialku.data.local.dao.MaterialDao
+import com.kelompok1.materialku.data.local.dao.SatuanDao
+import com.kelompok1.materialku.data.local.dao.SupplierDao
 import com.kelompok1.materialku.data.local.dao.UserDao
 import com.kelompok1.materialku.util.PasswordHasher
 import dagger.Module
@@ -31,6 +35,18 @@ object DatabaseModule {
 
     @Provides
     fun provideUserDao(db: MaterialKuDatabase): UserDao = db.userDao()
+
+    @Provides
+    fun provideKategoriDao(db: MaterialKuDatabase): KategoriDao = db.kategoriDao()
+
+    @Provides
+    fun provideSatuanDao(db: MaterialKuDatabase): SatuanDao = db.satuanDao()
+
+    @Provides
+    fun provideSupplierDao(db: MaterialKuDatabase): SupplierDao = db.supplierDao()
+
+    @Provides
+    fun provideMaterialDao(db: MaterialKuDatabase): MaterialDao = db.materialDao()
 
     @Provides
     @Singleton

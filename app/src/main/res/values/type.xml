@@ -96,4 +96,13 @@
         <item name="hintTextColor">@color/on_surface_variant</item>
         <item name="android:textColorHint">@color/on_surface_variant</item>
     </style>
+
+    <!-- Exposed dropdown menu (Material 3) -->
+    <style name="Widget.Materialku.TextInputLayout.ExposedDropdown" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxCornerRadiusTopStart">@dimen/radius_input</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_input</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_input</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_input</item>
+        <item name="boxStrokeColor">@color/outline</item>
+    </style>
 </resources>

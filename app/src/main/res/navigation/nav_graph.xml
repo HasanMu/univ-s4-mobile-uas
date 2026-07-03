@@ -46,7 +46,12 @@
         android:id="@+id/materialFormFragment"
         android:name="com.kelompok1.materialku.presentation.material.MaterialFormFragment"
         android:label="@string/material_add"
-        tools:layout="@layout/fragment_material_form" />
+        tools:layout="@layout/fragment_material_form">
+        <argument
+            android:name="materialId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
 
     <!-- Kategori -->
     <fragment
