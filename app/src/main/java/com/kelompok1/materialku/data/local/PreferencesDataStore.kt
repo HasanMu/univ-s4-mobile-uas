@@ -3,6 +3,7 @@ package com.kelompok1.materialku.data.local
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -46,9 +47,18 @@ class PreferencesDataStore @Inject constructor(
         }
     }
 
+    val darkMode: Flow<Boolean> = store.data.map { prefs ->
+        prefs[KEY_DARK_MODE] ?: false
+    }
+
+    suspend fun setDarkMode(enabled: Boolean) {
+        store.edit { prefs -> prefs[KEY_DARK_MODE] = enabled }
+    }
+
     companion object {
         private val KEY_USER_ID = intPreferencesKey("session_user_id")
         private val KEY_USERNAME = stringPreferencesKey("session_username")
         private val KEY_ROLE = stringPreferencesKey("session_role")
+        private val KEY_DARK_MODE = booleanPreferencesKey("pref_dark_mode")
     }
 }
