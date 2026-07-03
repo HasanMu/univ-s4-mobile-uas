@@ -7,11 +7,14 @@
 | # | Topik | Keputusan | Catatan |
 |---|---|---|---|
 | 1 | Supplier–Material | **Pilihan B (1:N)** — `supplierId` di entity Material | Diambil yang umum/sederhana dulu; bisa revisi jika ada use case pembelian |
-| 2 | Password hashing | **bcrypt** (library dicari nanti) | jbcrypt atau atlassian-bcrypt |
+| 2 | Password hashing | **bcrypt** — library `at.favre.lib:bcrypt:0.10.2`, cost 10 | Dipilih karena maintained, no reflection, kompatibel Android |
 | 3 | DI | **Hilt** | Sesuai rekomendasi PRD |
 | 4 | Pembatalan transaksi | **BATAL hanya untuk DRAFT** | SELESAI tidak bisa di-retur pada fase ini |
-| 5 | Stok konsistensi | **Belum diputuskan** | Pending: StokLog sebagai source of truth vs stokSaat sebagai cache |
-| 6 | Seeding user awal | **Ya, akan dibuat** | Default credentials per role untuk demo |
+| 5 | Stok konsistensi | **`Material.stokSaat` = source of truth** untuk read cepat; `StokLog` = audit trail | Setiap mutasi wajib update dua-duanya dalam 1 `@Transaction` di `StokService` |
+| 6 | Seeding user awal | **Ya** — admin/kasir/gudang/manager dengan password `<role>123` di `DatabaseSeeder`, di-hash bcrypt sebelum insert | Callback `onCreate` database |
+| 7 | Field `Material.stokMin` | **Ada** — wajib untuk `isStokKritis()` (`stokSaat <= stokMin`) | Tidak eksplisit di PRD §5 tapi ada di wireframe form; ditemukan waktu audit branch Muzakki |
+| 8 | Format tanggal Room | Serialize ke `String` ISO-8601 via `Converters` (`LocalDate.toString()` / `LocalDateTime.toString()`) | Standard, human-readable, sortable |
+| 9 | Session storage | **DataStore Preferences** — key `session_user_id`, `session_username`, `session_role` | Nggak simpan password/hash di preferences |
 
 ## Tech Stack (dari PRD)
 
@@ -45,10 +48,13 @@ com.kelompok1.materialku/
 │   ├── local/
 │   │   ├── entity/                (Room @Entity)
 │   │   ├── dao/                   (Room DAO)
+│   │   ├── Converters.kt          (TypeConverter enum/date)
+│   │   ├── DatabaseSeeder.kt      (seed user awal)
 │   │   ├── MaterialKuDatabase.kt
 │   │   └── PreferencesDataStore.kt
 │   └── repository/                (RepositoryImpl)
-└── util/                          (PdfExporter, formatter, dst.)
+├── di/                            (Hilt module: DatabaseModule, RepositoryModule)
+└── util/                          (PasswordHasher, PdfExporter, formatter, dst.)
 ```
 
 ## Screen List (9 screen)

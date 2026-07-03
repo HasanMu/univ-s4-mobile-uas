@@ -88,4 +88,12 @@
         <item name="boxCornerRadiusBottomEnd">@dimen/radius_input</item>
         <item name="boxStrokeColor">@color/outline</item>
     </style>
+
+    <!-- TextField style — dark surface (login) -->
+    <style name="Widget.Materialku.TextInputLayout.Dark" parent="Widget.Materialku.TextInputLayout">
+        <item name="boxBackgroundColor">@color/dark_card</item>
+        <item name="boxStrokeColor">@color/dark_card_stroke</item>
+        <item name="hintTextColor">@color/on_surface_variant</item>
+        <item name="android:textColorHint">@color/on_surface_variant</item>
+    </style>
 </resources>
