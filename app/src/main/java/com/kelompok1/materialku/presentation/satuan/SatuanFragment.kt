@@ -62,11 +62,20 @@ class SatuanFragment : BaseFragment<FragmentSatuanBinding>(
         binding.rvSatuan.visibility = if (empty) View.GONE else View.VISIBLE
     }
 
+    private var openDialog: androidx.appcompat.app.AlertDialog? = null
+    private var openDialogBinding: DialogSatuanFormBinding? = null
+
     private fun handleEvent(event: SatuanEvent) {
         when (event) {
-            SatuanEvent.Saved -> toast(getString(R.string.success_save))
+            SatuanEvent.Saved -> {
+                openDialog?.dismiss()
+                toast(getString(R.string.success_save))
+            }
             SatuanEvent.Deleted -> toast(getString(R.string.success_delete))
-            is SatuanEvent.ValidationError -> toast(event.message)
+            is SatuanEvent.ValidationError -> when (event.field) {
+                SatuanField.NAMA -> openDialogBinding?.tilNama?.error = event.message
+                SatuanField.SIMBOL -> openDialogBinding?.tilSimbol?.error = event.message
+            }
         }
     }
 
@@ -75,12 +84,22 @@ class SatuanFragment : BaseFragment<FragmentSatuanBinding>(
         db.etNama.setText(existing?.nama.orEmpty())
         db.etSimbol.setText(existing?.simbol.orEmpty())
 
+        db.etNama.addTextChangedListener(clearOn { db.tilNama.error = null })
+        db.etSimbol.addTextChangedListener(clearOn { db.tilSimbol.error = null })
+
         val title = if (existing == null) R.string.satuan_add_new else R.string.satuan_edit
 
-        AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setView(db.root)
-            .setPositiveButton(R.string.action_save) { _, _ ->
+            .setPositiveButton(R.string.action_save, null)
+            .setNegativeButton(R.string.action_batal, null)
+            .create()
+
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                db.tilNama.error = null
+                db.tilSimbol.error = null
                 viewModel.save(
                     SatuanFormInput(
                         editingId = existing?.id,
@@ -89,8 +108,21 @@ class SatuanFragment : BaseFragment<FragmentSatuanBinding>(
                     )
                 )
             }
-            .setNegativeButton(R.string.action_batal, null)
-            .show()
+        }
+
+        openDialog = dialog
+        openDialogBinding = db
+        dialog.setOnDismissListener {
+            openDialog = null
+            openDialogBinding = null
+        }
+        dialog.show()
+    }
+
+    private fun clearOn(action: () -> Unit) = object : android.text.TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: android.text.Editable?) { action() }
     }
 
     private fun confirmDelete(satuan: Satuan) {

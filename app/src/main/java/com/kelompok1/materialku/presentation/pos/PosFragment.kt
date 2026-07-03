@@ -63,6 +63,15 @@ class PosFragment : BaseFragment<FragmentPosBinding>(
             }
             showCartSheet()
         }
+
+        binding.btnDraftList.setOnClickListener { showDraftSheet() }
+    }
+
+    private fun showDraftSheet() {
+        DraftBottomSheet(
+            drafts = viewModel.drafts(),
+            onPick = { transaksiId -> viewModel.openDraft(transaksiId) }
+        ).show(parentFragmentManager, "draft-list")
     }
 
     override fun observeViewModel() {
@@ -83,6 +92,10 @@ class PosFragment : BaseFragment<FragmentPosBinding>(
         binding.tvCartCount.text = getString(R.string.pos_items, state.cartCount)
         binding.tvTotal.text = Formatter.rupiah(state.total)
         renderChips(state.filter)
+
+        binding.btnDraftList.text = if (state.draftCount == 0) getString(R.string.pos_draft_button)
+        else getString(R.string.pos_draft_button_count, state.draftCount)
+        binding.btnDraftList.isEnabled = state.draftCount > 0
     }
 
     private fun renderChips(active: PosFilter) {
@@ -104,6 +117,7 @@ class PosFragment : BaseFragment<FragmentPosBinding>(
     private fun handleEvent(event: PosEvent) {
         when (event) {
             is PosEvent.CheckoutSuccess -> showSuccessDialog(event)
+            is PosEvent.DraftLoaded -> toast(getString(R.string.pos_draft_loaded, event.itemCount))
             is PosEvent.Error -> toast(event.message)
         }
     }

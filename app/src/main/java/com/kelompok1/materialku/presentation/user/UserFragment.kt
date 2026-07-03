@@ -56,11 +56,29 @@ class UserFragment : BaseFragment<FragmentUserBinding>(
         }
     }
 
+    private var openDialog: androidx.appcompat.app.AlertDialog? = null
+    private var openDialogBinding: DialogUserFormBinding? = null
+
     private fun handleEvent(event: UserEvent) {
         when (event) {
-            UserEvent.Saved -> toast(getString(R.string.success_save))
+            UserEvent.Saved -> {
+                openDialog?.dismiss()
+                toast(getString(R.string.success_save))
+            }
             UserEvent.Deleted -> toast(getString(R.string.success_delete))
-            is UserEvent.ValidationError -> toast(event.message)
+            is UserEvent.ValidationError -> {
+                // Reset password helper waktu password field yang error,
+                // supaya error terlihat.
+                val db = openDialogBinding ?: return
+                when (event.field) {
+                    UserField.USERNAME -> db.tilUsername.error = event.message
+                    UserField.PASSWORD -> {
+                        db.tilPassword.helperText = null
+                        db.tilPassword.error = event.message
+                    }
+                }
+            }
+            is UserEvent.DeleteBlocked -> toast(event.message)
         }
     }
 
@@ -76,6 +94,16 @@ class UserFragment : BaseFragment<FragmentUserBinding>(
             getString(R.string.user_form_password_helper_edit)
         }
 
+        db.etUsername.addTextChangedListener(clearOn { db.tilUsername.error = null })
+        db.etPassword.addTextChangedListener(clearOn {
+            db.tilPassword.error = null
+            db.tilPassword.helperText = if (existing == null) {
+                getString(R.string.user_form_password_helper_new)
+            } else {
+                getString(R.string.user_form_password_helper_edit)
+            }
+        })
+
         val roles = RoleEnum.values().toList()
         val roleLabels = roles.map { it.displayName() }
         val roleAdapter = ArrayAdapter(
@@ -89,10 +117,17 @@ class UserFragment : BaseFragment<FragmentUserBinding>(
 
         val title = if (existing == null) R.string.user_add else R.string.user_edit
 
-        AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setView(db.root)
-            .setPositiveButton(R.string.action_save) { _, _ ->
+            .setPositiveButton(R.string.action_save, null)
+            .setNegativeButton(R.string.action_batal, null)
+            .create()
+
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                db.tilUsername.error = null
+                db.tilPassword.error = null
                 val chosenLabel = db.actRole.text?.toString().orEmpty()
                 val role = roles.firstOrNull { it.displayName() == chosenLabel } ?: initialRole
                 viewModel.save(
@@ -105,8 +140,21 @@ class UserFragment : BaseFragment<FragmentUserBinding>(
                     )
                 )
             }
-            .setNegativeButton(R.string.action_batal, null)
-            .show()
+        }
+
+        openDialog = dialog
+        openDialogBinding = db
+        dialog.setOnDismissListener {
+            openDialog = null
+            openDialogBinding = null
+        }
+        dialog.show()
+    }
+
+    private fun clearOn(action: () -> Unit) = object : android.text.TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: android.text.Editable?) { action() }
     }
 
     private fun confirmDelete(user: User) {

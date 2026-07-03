@@ -28,6 +28,7 @@
                 app:tint="@color/on_background" />
 
             <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_sm"
@@ -35,11 +36,27 @@
                 android:text="@string/material_title"
                 android:textAppearance="@style/TextAppearance.Materialku.Title" />
 
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="@string/material_search"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.Materialku.Body"
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/btnSearch"
                 android:layout_width="@dimen/icon_md"
                 android:layout_height="@dimen/icon_md"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/action_search"
+                android:padding="4dp"
                 android:src="@android:drawable/ic_menu_search"
                 app:tint="@color/on_background" />
         </LinearLayout>

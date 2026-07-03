@@ -35,6 +35,7 @@ class PosViewModel @Inject constructor(
     private val filter = MutableStateFlow<PosFilter>(PosFilter.Semua)
     private val search = MutableStateFlow("")
     private val cart = MutableStateFlow<Map<Int, Int>>(emptyMap())
+    private val draftList = MutableStateFlow<List<com.kelompok1.materialku.domain.model.Transaksi>>(emptyList())
 
     private val _state = MutableStateFlow(PosState())
     val state: StateFlow<PosState> = _state.asStateFlow()
@@ -45,23 +46,24 @@ class PosViewModel @Inject constructor(
     private var currentUserId: Int? = null
 
     init {
-        combine(
-            materialRepo.observeAll(),
-            kategoriRepo.observeAll(),
-            filter,
-            search,
-            cart
-        ) { mats, kats, f, q, c ->
+        // combine max 5 args di Flow API — bungkus filter+search+cart+drafts
+        // jadi satu tuple biar tetep muat.
+        val tail = combine(filter, search, cart, draftList) { f, q, c, d ->
+            PosCombineTail(f, q, c, d)
+        }
+        combine(materialRepo.observeAll(), kategoriRepo.observeAll(), tail) { mats, kats, t ->
             val katById = kats.associateBy { it.id }
-            val filteredByKat = when (f) {
+            val filteredByKat = when (val f = t.filter) {
                 PosFilter.Semua -> mats
                 is PosFilter.ByKategoriName -> mats.filter { m ->
                     katById[m.kategoriId]?.nama.equals(f.name, ignoreCase = true)
                 }
             }
+            val q = t.search
             val filtered = if (q.isBlank()) filteredByKat else filteredByKat.filter {
                 it.nama.contains(q, ignoreCase = true) || it.kode.contains(q, ignoreCase = true)
             }
+            val c = t.cart
             val rows = filtered.map { m ->
                 PosMaterialRow(
                     material = m,
@@ -77,11 +79,12 @@ class PosViewModel @Inject constructor(
             PosState(
                 items = rows,
                 kategoris = kats,
-                filter = f,
+                filter = t.filter,
                 search = q,
                 cart = cartLines,
                 cartCount = cartLines.sumOf { it.qty },
-                total = cartLines.sumOf { it.subtotal }
+                total = cartLines.sumOf { it.subtotal },
+                draftCount = t.drafts.size
             )
         }
             .onEach { _state.value = it }
@@ -90,6 +93,24 @@ class PosViewModel @Inject constructor(
         authRepo.observeSession()
             .onEach { s -> currentUserId = s?.userId }
             .launchIn(viewModelScope)
+
+        // Observe daftar draft supaya badge & bottom sheet always fresh.
+        // Update `draftCount` di state supaya UI re-render otomatis waktu
+        // list draft berubah (misal setelah save DRAFT atau openDraft).
+        posRepo.observeByStatus(com.kelompok1.materialku.domain.model.StatusTransaksi.DRAFT)
+            .onEach { list -> draftList.value = list }
+            .launchIn(viewModelScope)
+    }
+
+    fun drafts(): List<com.kelompok1.materialku.domain.model.Transaksi> = draftList.value
+
+    fun openDraft(transaksiId: Int) {
+        launchWithError {
+            val items = posRepo.loadDraftAndDelete(transaksiId)
+            val newCart = items.associate { it.materialId to it.qty }
+            cart.value = newCart
+            _events.emit(PosEvent.DraftLoaded(items.size))
+        }
     }
 
     fun setFilter(f: PosFilter) {
@@ -159,7 +180,15 @@ data class PosState(
     val search: String = "",
     val cart: List<CartItem> = emptyList(),
     val cartCount: Int = 0,
-    val total: Double = 0.0
+    val total: Double = 0.0,
+    val draftCount: Int = 0
+)
+
+private data class PosCombineTail(
+    val filter: PosFilter,
+    val search: String,
+    val cart: Map<Int, Int>,
+    val drafts: List<com.kelompok1.materialku.domain.model.Transaksi>
 )
 
 data class PosMaterialRow(
@@ -181,5 +210,6 @@ sealed interface PosFilter {
 
 sealed interface PosEvent {
     data class CheckoutSuccess(val result: CheckoutResult, val status: StatusTransaksi) : PosEvent
+    data class DraftLoaded(val itemCount: Int) : PosEvent
     data class Error(val message: String) : PosEvent
 }

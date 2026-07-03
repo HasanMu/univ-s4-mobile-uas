@@ -3,6 +3,8 @@ package com.kelompok1.materialku.presentation.settings
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.viewModelScope
 import com.kelompok1.materialku.data.local.PreferencesDataStore
+import com.kelompok1.materialku.domain.model.RoleEnum
+import com.kelompok1.materialku.domain.repository.IAuthRepository
 import com.kelompok1.materialku.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val prefs: PreferencesDataStore
+    private val prefs: PreferencesDataStore,
+    private val authRepo: IAuthRepository
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(SettingsState())
@@ -24,6 +27,16 @@ class SettingsViewModel @Inject constructor(
         prefs.darkMode
             .onEach { enabled ->
                 _state.value = _state.value.copy(darkMode = enabled, loaded = true)
+            }
+            .launchIn(viewModelScope)
+
+        // Profil dinamis — nama & role dari session yang aktif sekarang.
+        authRepo.observeSession()
+            .onEach { s ->
+                _state.value = _state.value.copy(
+                    username = s?.username.orEmpty(),
+                    role = s?.role
+                )
             }
             .launchIn(viewModelScope)
     }
@@ -44,5 +57,7 @@ class SettingsViewModel @Inject constructor(
 
 data class SettingsState(
     val darkMode: Boolean = false,
-    val loaded: Boolean = false
+    val loaded: Boolean = false,
+    val username: String = "",
+    val role: RoleEnum? = null
 )

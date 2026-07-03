@@ -22,6 +22,15 @@ interface IPosRepository {
         status: StatusTransaksi,
         userId: Int
     ): Result<CheckoutResult>
+
+    /**
+     * Ambil item-item cart dari sebuah draft, lalu HAPUS draft-nya. Dipakai
+     * di POS flow "Buka Draft" — item diload balik ke cart, user boleh
+     * adjust lagi, lalu Bayar akan bikin transaksi SELESAI baru. Ini
+     * hindari state ambigu (draft terbuka + edit + bayar tapi belum
+     * clear draft lama).
+     */
+    suspend fun loadDraftAndDelete(transaksiId: Int): List<CartLine>
 }
 
 data class CartLine(

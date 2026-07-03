@@ -24,11 +24,20 @@
             app:tint="@color/on_background" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_sm"
+            android:layout_weight="1"
             android:text="@string/pos_title"
             android:textAppearance="@style/TextAppearance.Materialku.Title" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDraftList"
+            style="@style/Widget.Materialku.Button.Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:paddingHorizontal="@dimen/spacing_md" />
     </LinearLayout>
 
     <!-- Search Bar (real EditText) -->

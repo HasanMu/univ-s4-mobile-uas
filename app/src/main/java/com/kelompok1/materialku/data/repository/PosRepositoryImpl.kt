@@ -42,6 +42,18 @@ class PosRepositoryImpl @Inject constructor(
     override suspend fun findById(id: Int): Transaksi? =
         transaksiDao.findById(id)?.toDomain()
 
+    override suspend fun loadDraftAndDelete(transaksiId: Int): List<CartLine> {
+        return db.withTransaction {
+            val items = itemTransaksiDao.findByTransaksi(transaksiId).map { e ->
+                CartLine(materialId = e.materialId, qty = e.qty, hargaSatuan = e.hargaSatuan)
+            }
+            // Delete Transaksi header — item ikut ke-cascade karena FK
+            // CASCADE di ItemTransaksiEntity. Draft dianggap dikonsumsi.
+            transaksiDao.delete(transaksiId)
+            items
+        }
+    }
+
     override suspend fun checkout(
         items: List<CartLine>,
         status: StatusTransaksi,
