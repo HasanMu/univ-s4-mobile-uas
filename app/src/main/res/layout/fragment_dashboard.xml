@@ -13,13 +13,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Hero (dark) — fitsSystemWindows biar bg gelap extend ke belakang status bar,
-             tapi kontennya di-padding turun agar tidak ketutup status bar -->
+        <!-- Hero (dark) — top inset di-apply programmatic di DashboardFragment
+             (fitsSystemWindows di XML akan override padding, jadi horizontal jadi 0) -->
         <LinearLayout
+            android:id="@+id/heroSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background_dark"
-            android:fitsSystemWindows="true"
             android:orientation="vertical"
             android:padding="@dimen/spacing_xl">
 

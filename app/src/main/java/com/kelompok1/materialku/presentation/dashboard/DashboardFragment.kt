@@ -3,6 +3,9 @@ package com.kelompok1.materialku.presentation.dashboard
 import android.content.res.ColorStateList
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +27,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(
     override fun useLightStatusBarIcons(): Boolean = true
 
     override fun setupViews() {
+        applyStatusBarInsetToHero()
         binding.cardMaterial.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_material)
         }
@@ -47,6 +51,21 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(
         }
         binding.btnLogout.setOnClickListener {
             viewModel.logout()
+        }
+    }
+
+    /**
+     * Tambah top inset (tinggi status bar) ke padding hero — bukan replace.
+     * Hero jadi punya paddingTop = spacing_xl + status_bar_height, sementara
+     * paddingHorizontal & paddingBottom tetap spacing_xl.
+     */
+    private fun applyStatusBarInsetToHero() {
+        val hero = binding.heroSection
+        val originalPaddingTop = hero.paddingTop
+        ViewCompat.setOnApplyWindowInsetsListener(hero) { v, insets ->
+            val topInset = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
+            v.updatePadding(top = originalPaddingTop + topInset)
+            insets
         }
     }
 
