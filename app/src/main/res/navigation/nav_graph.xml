@@ -58,7 +58,16 @@
         android:id="@+id/kategoriFragment"
         android:name="com.kelompok1.materialku.presentation.kategori.KategoriFragment"
         android:label="@string/kategori_title"
-        tools:layout="@layout/fragment_kategori" />
+        tools:layout="@layout/fragment_kategori">
+        <action android:id="@+id/action_kategori_to_satuan" app:destination="@id/satuanFragment" />
+    </fragment>
+
+    <!-- Satuan -->
+    <fragment
+        android:id="@+id/satuanFragment"
+        android:name="com.kelompok1.materialku.presentation.satuan.SatuanFragment"
+        android:label="@string/satuan_title"
+        tools:layout="@layout/fragment_satuan" />
 
     <!-- POS -->
     <fragment

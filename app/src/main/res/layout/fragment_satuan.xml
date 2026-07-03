@@ -10,7 +10,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- AppBar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/app_bar_height"
@@ -28,24 +27,13 @@
                 app:tint="@color/on_background" />
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_sm"
-                android:layout_weight="1"
-                android:text="@string/kategori_title"
-                android:textAppearance="@style/TextAppearance.Materialku.Title" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnKelolaSatuan"
-                style="@style/Widget.Materialku.Button.Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="0dp"
-                android:paddingHorizontal="@dimen/spacing_md"
-                android:text="@string/satuan_manage" />
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:text="@string/satuan_title"
+                android:textAppearance="@style/TextAppearance.Materialku.Title" />
         </LinearLayout>
 
-        <!-- Empty state -->
         <LinearLayout
             android:id="@+id/emptyState"
             android:layout_width="match_parent"
@@ -59,7 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/kategori_empty"
+                android:text="@string/satuan_empty"
                 android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
                 android:textColor="@color/on_surface" />
 
@@ -72,9 +60,8 @@
                 android:textColor="@color/on_surface_variant" />
         </LinearLayout>
 
-        <!-- List -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvKategori"
+            android:id="@+id/rvSatuan"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -83,7 +70,6 @@
             android:paddingBottom="80dp" />
     </LinearLayout>
 
-    <!-- FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
@@ -91,7 +77,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/spacing_lg"
         android:backgroundTint="@color/primary"
-        android:contentDescription="@string/kategori_add"
+        android:contentDescription="@string/satuan_add_new"
         android:src="@android:drawable/ic_menu_add"
         app:tint="@color/on_primary" />
 

@@ -60,7 +60,17 @@
     <string name="kategori_empty_desc">Tekan + untuk menambah</string>
     <string name="kategori_delete_title">Hapus kategori?</string>
     <string name="kategori_delete_message">%1$s akan dihapus permanen.</string>
+    <string name="satuan_title">Satuan</string>
     <string name="satuan_add">+ Tambah Satuan</string>
+    <string name="satuan_add_new">Tambah Satuan</string>
+    <string name="satuan_edit">Edit Satuan</string>
+    <string name="satuan_manage">SATUAN</string>
+    <string name="satuan_form_nama">Nama satuan</string>
+    <string name="satuan_form_simbol">Simbol</string>
+    <string name="satuan_form_simbol_helper">Contoh: sak, kg, m</string>
+    <string name="satuan_empty">Belum ada satuan</string>
+    <string name="satuan_delete_title">Hapus satuan?</string>
+    <string name="satuan_delete_message">%1$s akan dihapus permanen.</string>
 
     <!-- POS -->
     <string name="pos_title">Transaksi Baru</string>
