@@ -37,4 +37,7 @@ interface MaterialDao {
 
     @Query("SELECT COUNT(*) FROM material WHERE stokSaat <= stokMin")
     suspend fun countKritis(): Int
+
+    @Query("SELECT * FROM material WHERE stokSaat <= stokMin ORDER BY nama ASC")
+    suspend fun listKritis(): List<MaterialEntity>
 }

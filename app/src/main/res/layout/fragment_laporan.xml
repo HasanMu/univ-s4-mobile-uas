@@ -52,15 +52,19 @@
                 android:textColor="@color/on_surface_variant" />
 
             <LinearLayout
+                android:id="@+id/periodePicker"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_input"
                 android:layout_marginBottom="@dimen/spacing_xl"
                 android:background="@color/surface"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="@dimen/spacing_lg">
 
                 <TextView
+                    android:id="@+id/tvPeriodeLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -205,37 +209,25 @@
                 android:textAppearance="@style/TextAppearance.Materialku.LabelMicro"
                 android:textColor="@color/on_surface_variant" />
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
+                android:id="@+id/rvKritis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_xl"
-                app:cardBackgroundColor="@color/error_container"
-                app:cardCornerRadius="@dimen/radius_card_sm"
-                app:cardElevation="0dp"
-                app:strokeWidth="0dp">
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_lg">
+                <!-- populated dinamis dari LaporanFragment -->
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cat Nippon Paint"
-                        android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
-                        android:textColor="@color/on_surface" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_xs"
-                        android:text="5 kaleng (min: 10)"
-                        android:textAppearance="@style/TextAppearance.Materialku.BodySmall"
-                        android:textColor="@color/on_surface_variant" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:id="@+id/tvKritisEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_xl"
+                android:text="@string/laporan_kritis_kosong"
+                android:textAppearance="@style/TextAppearance.Materialku.Caption"
+                android:textColor="@color/on_surface_variant"
+                android:visibility="gone" />
 
             <!-- Export Button -->
             <com.google.android.material.button.MaterialButton

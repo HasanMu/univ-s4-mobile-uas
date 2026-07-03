@@ -17,4 +17,19 @@ interface ItemTransaksiDao {
 
     @Query("SELECT COUNT(*) FROM item_transaksi WHERE transaksiId = :transaksiId")
     suspend fun countByTransaksi(transaksiId: Int): Int
+
+    // Total unit terjual pada periode — join ke transaksi untuk filter
+    // by status SELESAI dan tanggal dalam range.
+    @Query(
+        """
+        SELECT COALESCE(SUM(it.qty), 0)
+        FROM item_transaksi it
+        INNER JOIN transaksi t ON t.id = it.transaksiId
+        WHERE t.status = 'SELESAI' AND t.tanggal >= :from AND t.tanggal < :to
+        """
+    )
+    suspend fun sumQtyInRange(
+        from: java.time.LocalDateTime,
+        to: java.time.LocalDateTime
+    ): Int
 }
