@@ -31,29 +31,27 @@
             android:textAppearance="@style/TextAppearance.Materialku.Title" />
     </LinearLayout>
 
-    <!-- Search Bar -->
+    <!-- Search Bar (real EditText) -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/surface"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/spacing_lg">
 
-        <ImageView
-            android:layout_width="@dimen/icon_md"
-            android:layout_height="@dimen/icon_md"
-            android:contentDescription="@string/action_search"
-            android:src="@android:drawable/ic_menu_search"
-            app:tint="@color/on_surface_variant" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilSearch"
+            style="@style/Widget.Materialku.TextInputLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/pos_search"
-            android:textAppearance="@style/TextAppearance.Materialku.Body"
-            android:textColor="@color/on_surface_variant" />
+            android:hint="@string/pos_search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <!-- Filter Chips -->
@@ -98,10 +96,22 @@
                 android:id="@+id/chipAlat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_sm"
                 android:background="@color/surface"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="8dp"
                 android:text="Alat"
+                android:textColor="@color/on_surface_variant"
+                android:textAppearance="@style/TextAppearance.Materialku.Caption" />
+
+            <TextView
+                android:id="@+id/chipLainnya"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/surface"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp"
+                android:text="Lainnya"
                 android:textColor="@color/on_surface_variant"
                 android:textAppearance="@style/TextAppearance.Materialku.Caption" />
         </LinearLayout>

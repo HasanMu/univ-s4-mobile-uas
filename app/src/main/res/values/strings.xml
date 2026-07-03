@@ -81,6 +81,9 @@
     <string name="pos_draft">SIMPAN DRAFT</string>
     <string name="pos_total">Total</string>
     <string name="pos_items">%1$d item</string>
+    <string name="pos_empty_cart">Keranjang masih kosong</string>
+    <string name="pos_success_title">Transaksi %1$s</string>
+    <string name="pos_success_message">No. Faktur: %1$s\nTotal: %2$s</string>
 
     <!-- Stok -->
     <string name="stok_title">Stok Material</string>

@@ -3,11 +3,13 @@ package com.kelompok1.materialku.di
 import android.content.Context
 import com.kelompok1.materialku.data.local.MaterialKuDatabase
 import com.kelompok1.materialku.data.local.PreferencesDataStore
+import com.kelompok1.materialku.data.local.dao.ItemTransaksiDao
 import com.kelompok1.materialku.data.local.dao.KategoriDao
 import com.kelompok1.materialku.data.local.dao.MaterialDao
 import com.kelompok1.materialku.data.local.dao.SatuanDao
 import com.kelompok1.materialku.data.local.dao.StokLogDao
 import com.kelompok1.materialku.data.local.dao.SupplierDao
+import com.kelompok1.materialku.data.local.dao.TransaksiDao
 import com.kelompok1.materialku.data.local.dao.UserDao
 import com.kelompok1.materialku.util.PasswordHasher
 import dagger.Module
@@ -51,6 +53,12 @@ object DatabaseModule {
 
     @Provides
     fun provideStokLogDao(db: MaterialKuDatabase): StokLogDao = db.stokLogDao()
+
+    @Provides
+    fun provideTransaksiDao(db: MaterialKuDatabase): TransaksiDao = db.transaksiDao()
+
+    @Provides
+    fun provideItemTransaksiDao(db: MaterialKuDatabase): ItemTransaksiDao = db.itemTransaksiDao()
 
     @Provides
     @Singleton
