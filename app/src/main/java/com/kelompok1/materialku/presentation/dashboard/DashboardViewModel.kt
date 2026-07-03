@@ -3,6 +3,7 @@ package com.kelompok1.materialku.presentation.dashboard
 import androidx.lifecycle.viewModelScope
 import com.kelompok1.materialku.domain.model.RoleEnum
 import com.kelompok1.materialku.domain.repository.IAuthRepository
+import com.kelompok1.materialku.domain.repository.IMaterialRepository
 import com.kelompok1.materialku.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val authRepository: IAuthRepository
+    private val authRepository: IAuthRepository,
+    private val materialRepository: IMaterialRepository
 ) : BaseViewModel() {
 
     private val _state = MutableStateFlow(DashboardState())
@@ -40,8 +42,19 @@ class DashboardViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
-        // TODO: gantikan hardcode 0 dengan query DAO Material/Transaksi/StokLog
-        //       waktu tabel Rafie & Pria sudah masuk. Placeholder count = 0.
+        // Stat material + kritis diturunkan langsung dari observeAll()
+        // supaya angka di dashboard ikut berubah realtime waktu user CRUD
+        // material — tanpa perlu manual refresh.
+        materialRepository.observeAll()
+            .onEach { materials ->
+                _state.value = _state.value.copy(
+                    statMaterial = materials.size,
+                    statKritis = materials.count { it.isStokKritis() }
+                )
+            }
+            .launchIn(viewModelScope)
+
+        // TODO(pria): statTransaksi tunggu TransaksiDao masuk.
     }
 
     fun logout() {
