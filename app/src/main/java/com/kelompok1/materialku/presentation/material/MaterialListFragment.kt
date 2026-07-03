@@ -3,6 +3,7 @@ package com.kelompok1.materialku.presentation.material
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -38,8 +39,9 @@ class MaterialListFragment : BaseFragment<FragmentMaterialListBinding>(
         binding.fabAdd.setOnClickListener {
             openForm(materialId = null)
         }
-        binding.btnSearch.setOnClickListener {
-            // TODO: implement search input; toggle chips → text field
+        binding.btnSearch.setOnClickListener { toggleSearch() }
+        binding.etSearch.doAfterTextChanged { text ->
+            viewModel.setSearch(text?.toString().orEmpty())
         }
 
         binding.chipSemua.setOnClickListener { viewModel.setFilter(MaterialFilter.Semua) }
@@ -75,6 +77,23 @@ class MaterialListFragment : BaseFragment<FragmentMaterialListBinding>(
         val fg = if (isActive) R.color.on_primary else R.color.on_surface_variant
         view.setBackgroundColor(androidx.core.content.ContextCompat.getColor(ctx, bg))
         view.setTextColor(androidx.core.content.ContextCompat.getColor(ctx, fg))
+    }
+
+    private fun toggleSearch() {
+        val searchOn = binding.etSearch.visibility == View.VISIBLE
+        if (searchOn) {
+            binding.etSearch.setText("")
+            binding.etSearch.visibility = View.GONE
+            binding.tvTitle.visibility = View.VISIBLE
+            viewModel.setSearch("")
+        } else {
+            binding.tvTitle.visibility = View.GONE
+            binding.etSearch.visibility = View.VISIBLE
+            binding.etSearch.requestFocus()
+            val imm = requireContext().getSystemService(android.content.Context.INPUT_METHOD_SERVICE)
+                as android.view.inputmethod.InputMethodManager
+            imm.showSoftInput(binding.etSearch, android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
     private fun openForm(materialId: Int?) {

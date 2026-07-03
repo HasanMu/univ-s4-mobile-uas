@@ -84,6 +84,12 @@
     <string name="pos_empty_cart">Keranjang masih kosong</string>
     <string name="pos_success_title">Transaksi %1$s</string>
     <string name="pos_success_message">No. Faktur: %1$s\nTotal: %2$s</string>
+    <string name="pos_draft_button">DRAFT</string>
+    <string name="pos_draft_button_count">DRAFT (%1$d)</string>
+    <string name="pos_draft_list_title">Draft Transaksi</string>
+    <string name="pos_draft_list_hint">Tap untuk buka draft ke keranjang. Draft yang dibuka akan dihapus dari daftar; simpan draft baru setelah edit kalau ingin ditunda lagi.</string>
+    <string name="pos_draft_empty">Belum ada draft</string>
+    <string name="pos_draft_loaded">Draft dimuat: %1$d item</string>
 
     <!-- Stok -->
     <string name="stok_title">Stok Material</string>

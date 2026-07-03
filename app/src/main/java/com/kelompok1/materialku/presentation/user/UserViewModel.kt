@@ -48,23 +48,26 @@ class UserViewModel @Inject constructor(
         val password = input.password
         val isCreate = input.editingId == null
 
-        val error = when {
-            username.isEmpty() -> "Username wajib diisi"
-            username.length < 3 -> "Username minimal 3 karakter"
-            isCreate && password.isEmpty() -> "Password wajib diisi"
-            isCreate && password.length < 4 -> "Password minimal 4 karakter"
-            !isCreate && password.isNotEmpty() && password.length < 4 -> "Password minimal 4 karakter"
+        val fieldError: Pair<UserField, String>? = when {
+            username.isEmpty() -> UserField.USERNAME to "Username wajib diisi"
+            username.length < 3 -> UserField.USERNAME to "Username minimal 3 karakter"
+            isCreate && password.isEmpty() -> UserField.PASSWORD to "Password wajib diisi"
+            isCreate && password.length < 4 -> UserField.PASSWORD to "Password minimal 4 karakter"
+            !isCreate && password.isNotEmpty() && password.length < 4 ->
+                UserField.PASSWORD to "Password minimal 4 karakter"
             else -> null
         }
-        if (error != null) {
-            launchWithError { _events.emit(UserEvent.ValidationError(error)) }
+        if (fieldError != null) {
+            launchWithError {
+                _events.emit(UserEvent.ValidationError(fieldError.first, fieldError.second))
+            }
             return
         }
 
         launchWithError {
             val existing = userRepo.findByUsername(username)
             if (existing != null && existing.id != (input.editingId ?: -1)) {
-                _events.emit(UserEvent.ValidationError("Username '$username' sudah dipakai"))
+                _events.emit(UserEvent.ValidationError(UserField.USERNAME, "Username '$username' sudah dipakai"))
                 return@launchWithError
             }
 
@@ -96,7 +99,7 @@ class UserViewModel @Inject constructor(
     fun delete(id: Int) {
         launchWithError {
             if (id == _state.value.currentUserId) {
-                _events.emit(UserEvent.ValidationError("Tidak bisa menghapus akun yang sedang login"))
+                _events.emit(UserEvent.DeleteBlocked("Tidak bisa menghapus akun yang sedang login"))
                 return@launchWithError
             }
             userRepo.delete(id)
@@ -104,6 +107,8 @@ class UserViewModel @Inject constructor(
         }
     }
 }
+
+enum class UserField { USERNAME, PASSWORD }
 
 data class UserListState(
     val items: List<User> = emptyList(),
@@ -121,5 +126,6 @@ data class UserFormInput(
 sealed interface UserEvent {
     data object Saved : UserEvent
     data object Deleted : UserEvent
-    data class ValidationError(val message: String) : UserEvent
+    data class ValidationError(val field: UserField, val message: String) : UserEvent
+    data class DeleteBlocked(val message: String) : UserEvent
 }

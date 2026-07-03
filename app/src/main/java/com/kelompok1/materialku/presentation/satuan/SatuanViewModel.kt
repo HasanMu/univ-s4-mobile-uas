@@ -36,14 +36,16 @@ class SatuanViewModel @Inject constructor(
         val nama = input.nama.trim()
         val simbol = input.simbol.trim()
 
-        val error = when {
-            nama.isEmpty() -> "Nama satuan wajib diisi"
-            simbol.isEmpty() -> "Simbol wajib diisi"
-            simbol.length > 10 -> "Simbol maksimal 10 karakter"
+        val fieldError: Pair<SatuanField, String>? = when {
+            nama.isEmpty() -> SatuanField.NAMA to "Nama satuan wajib diisi"
+            simbol.isEmpty() -> SatuanField.SIMBOL to "Simbol wajib diisi"
+            simbol.length > 10 -> SatuanField.SIMBOL to "Simbol maksimal 10 karakter"
             else -> null
         }
-        if (error != null) {
-            launchWithError { _events.emit(SatuanEvent.ValidationError(error)) }
+        if (fieldError != null) {
+            launchWithError {
+                _events.emit(SatuanEvent.ValidationError(fieldError.first, fieldError.second))
+            }
             return
         }
 
@@ -53,7 +55,7 @@ class SatuanViewModel @Inject constructor(
                 it.nama.equals(nama, ignoreCase = true) && it.id != (input.editingId ?: -1)
             }
             if (duplicate) {
-                _events.emit(SatuanEvent.ValidationError("Satuan '$nama' sudah dipakai"))
+                _events.emit(SatuanEvent.ValidationError(SatuanField.NAMA, "Satuan '$nama' sudah dipakai"))
                 return@launchWithError
             }
 
@@ -85,8 +87,10 @@ data class SatuanFormInput(
     val simbol: String
 )
 
+enum class SatuanField { NAMA, SIMBOL }
+
 sealed interface SatuanEvent {
     data object Saved : SatuanEvent
     data object Deleted : SatuanEvent
-    data class ValidationError(val message: String) : SatuanEvent
+    data class ValidationError(val field: SatuanField, val message: String) : SatuanEvent
 }

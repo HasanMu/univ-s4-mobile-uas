@@ -31,6 +31,7 @@ class MaterialViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val filter = MutableStateFlow<MaterialFilter>(MaterialFilter.Semua)
+    private val search = MutableStateFlow("")
 
     private val _state = MutableStateFlow(MaterialListState())
     val state: StateFlow<MaterialListState> = _state.asStateFlow()
@@ -42,14 +43,17 @@ class MaterialViewModel @Inject constructor(
     val events: SharedFlow<MaterialEvent> = _events.asSharedFlow()
 
     init {
-        // List materials + filter reactive
-        combine(materialRepo.observeAll(), kategoriRepo.observeAll(), filter) { mats, kats, f ->
+        // List materials + filter + search reactive
+        combine(materialRepo.observeAll(), kategoriRepo.observeAll(), filter, search) { mats, kats, f, q ->
             val katById = kats.associateBy { it.id }
-            val filtered = when (f) {
+            val byKategori = when (f) {
                 MaterialFilter.Semua -> mats
                 is MaterialFilter.ByKategoriName -> mats.filter { m ->
                     katById[m.kategoriId]?.nama?.equals(f.name, ignoreCase = true) == true
                 }
+            }
+            val filtered = if (q.isBlank()) byKategori else byKategori.filter { m ->
+                m.nama.contains(q, ignoreCase = true) || m.kode.contains(q, ignoreCase = true)
             }
             MaterialListState(
                 items = filtered.map { m ->
@@ -59,6 +63,7 @@ class MaterialViewModel @Inject constructor(
                     )
                 },
                 filter = f,
+                search = q,
                 kategoris = kats
             )
         }
@@ -68,6 +73,10 @@ class MaterialViewModel @Inject constructor(
 
     fun setFilter(f: MaterialFilter) {
         filter.value = f
+    }
+
+    fun setSearch(q: String) {
+        search.value = q
     }
 
     fun loadFormData(materialId: Int?) {
@@ -166,6 +175,7 @@ data class MaterialRow(
 data class MaterialListState(
     val items: List<MaterialRow> = emptyList(),
     val filter: MaterialFilter = MaterialFilter.Semua,
+    val search: String = "",
     val kategoris: List<Kategori> = emptyList()
 )
 

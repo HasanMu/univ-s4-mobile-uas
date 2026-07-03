@@ -65,12 +65,14 @@
                         android:background="@color/primary">
 
                         <TextView
+                            android:id="@+id/tvAvatarInitial"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="H"
                             android:textAppearance="@style/TextAppearance.Materialku.Title"
-                            android:textColor="@color/on_primary" />
+                            android:textColor="@color/on_primary"
+                            tools:text="H"
+                            xmlns:tools="http://schemas.android.com/tools" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -80,19 +82,23 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvUsername"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Hasan"
                             android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
-                            android:textColor="@color/on_background_dark" />
+                            android:textColor="@color/on_background_dark"
+                            xmlns:tools="http://schemas.android.com/tools"
+                            tools:text="hasan" />
 
                         <TextView
+                            android:id="@+id/tvUserRole"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_xs"
-                            android:text="@string/role_admin"
                             android:textAppearance="@style/TextAppearance.Materialku.BodySmall"
-                            android:textColor="#718096" />
+                            android:textColor="#718096"
+                            xmlns:tools="http://schemas.android.com/tools"
+                            tools:text="Admin" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

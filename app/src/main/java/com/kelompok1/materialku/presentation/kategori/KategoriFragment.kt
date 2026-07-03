@@ -65,37 +65,68 @@ class KategoriFragment : BaseFragment<FragmentKategoriBinding>(
         binding.rvKategori.visibility = if (empty) View.GONE else View.VISIBLE
     }
 
+    private var openDialog: androidx.appcompat.app.AlertDialog? = null
+    private var openDialogBinding: DialogKategoriFormBinding? = null
+
     private fun handleEvent(event: KategoriEvent) {
         when (event) {
-            KategoriEvent.Saved -> toast(getString(R.string.success_save))
+            KategoriEvent.Saved -> {
+                openDialog?.dismiss()
+                toast(getString(R.string.success_save))
+            }
             KategoriEvent.Deleted -> toast(getString(R.string.success_delete))
-            is KategoriEvent.ValidationError -> toast(event.message)
+            is KategoriEvent.ValidationError -> when (event.field) {
+                KategoriField.NAMA -> openDialogBinding?.tilNama?.error = event.message
+            }
         }
     }
 
     private fun showForm(existing: Kategori?) {
-        val dialogBinding = DialogKategoriFormBinding.inflate(layoutInflater)
-        dialogBinding.etNama.setText(existing?.nama.orEmpty())
-        dialogBinding.etDeskripsi.setText(existing?.deskripsi.orEmpty())
-        dialogBinding.switchAktif.isChecked = existing?.aktif ?: true
+        val db = DialogKategoriFormBinding.inflate(layoutInflater)
+        db.etNama.setText(existing?.nama.orEmpty())
+        db.etDeskripsi.setText(existing?.deskripsi.orEmpty())
+        db.switchAktif.isChecked = existing?.aktif ?: true
+
+        // Clear error otomatis begitu user edit.
+        db.etNama.addTextChangedListener(clearOn { db.tilNama.error = null })
 
         val title = if (existing == null) R.string.kategori_add else R.string.kategori_edit
 
-        AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(requireContext())
             .setTitle(title)
-            .setView(dialogBinding.root)
-            .setPositiveButton(R.string.action_save) { _, _ ->
+            .setView(db.root)
+            .setPositiveButton(R.string.action_save, null) // override di bawah supaya nggak auto-dismiss
+            .setNegativeButton(R.string.action_batal, null)
+            .create()
+
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                db.tilNama.error = null
                 viewModel.save(
                     KategoriFormInput(
                         editingId = existing?.id,
-                        nama = dialogBinding.etNama.text?.toString().orEmpty(),
-                        deskripsi = dialogBinding.etDeskripsi.text?.toString().orEmpty(),
-                        aktif = dialogBinding.switchAktif.isChecked
+                        nama = db.etNama.text?.toString().orEmpty(),
+                        deskripsi = db.etDeskripsi.text?.toString().orEmpty(),
+                        aktif = db.switchAktif.isChecked
                     )
                 )
+                // Dialog di-dismiss di handleEvent(Saved).
             }
-            .setNegativeButton(R.string.action_batal, null)
-            .show()
+        }
+
+        openDialog = dialog
+        openDialogBinding = db
+        dialog.setOnDismissListener {
+            openDialog = null
+            openDialogBinding = null
+        }
+        dialog.show()
+    }
+
+    private fun clearOn(action: () -> Unit) = object : android.text.TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(s: android.text.Editable?) { action() }
     }
 
     private fun confirmDelete(kategori: Kategori) {

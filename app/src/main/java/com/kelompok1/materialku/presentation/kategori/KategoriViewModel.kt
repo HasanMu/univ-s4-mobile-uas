@@ -41,7 +41,7 @@ class KategoriViewModel @Inject constructor(
 
         if (nama.isEmpty()) {
             launchWithError {
-                _events.emit(KategoriEvent.ValidationError("Nama kategori wajib diisi"))
+                _events.emit(KategoriEvent.ValidationError(KategoriField.NAMA, "Nama kategori wajib diisi"))
             }
             return
         }
@@ -52,7 +52,7 @@ class KategoriViewModel @Inject constructor(
                 it.nama.equals(nama, ignoreCase = true) && it.id != (input.editingId ?: -1)
             }
             if (duplicate) {
-                _events.emit(KategoriEvent.ValidationError("Nama kategori '$nama' sudah dipakai"))
+                _events.emit(KategoriEvent.ValidationError(KategoriField.NAMA, "Nama '$nama' sudah dipakai"))
                 return@launchWithError
             }
 
@@ -98,8 +98,10 @@ data class KategoriFormInput(
     val aktif: Boolean
 )
 
+enum class KategoriField { NAMA }
+
 sealed interface KategoriEvent {
     data object Saved : KategoriEvent
     data object Deleted : KategoriEvent
-    data class ValidationError(val message: String) : KategoriEvent
+    data class ValidationError(val field: KategoriField, val message: String) : KategoriEvent
 }

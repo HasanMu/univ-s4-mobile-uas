@@ -8,6 +8,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.kelompok1.materialku.R
 import com.kelompok1.materialku.databinding.FragmentSettingsBinding
+import com.kelompok1.materialku.domain.model.RoleEnum
 import com.kelompok1.materialku.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -22,8 +23,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
-        // Listener di-set di render() setelah loaded=true supaya nilai
-        // awal dari DataStore gak nge-trigger toggle spuriously.
         binding.rowPrivasi.setOnClickListener {
             Toast.makeText(requireContext(), R.string.settings_soon, Toast.LENGTH_SHORT).show()
         }
@@ -41,13 +40,26 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     }
 
     private fun render(state: SettingsState) {
+        // Profil
+        if (state.username.isNotEmpty()) {
+            binding.tvUsername.text = state.username
+            binding.tvAvatarInitial.text = state.username.take(1).uppercase()
+        }
+        state.role?.let { binding.tvUserRole.text = it.roleDisplay() }
+
+        // Dark mode toggle
         if (!state.loaded) return
-        // Set tanpa memicu listener — supaya initial state gak keitung
-        // sebagai user action.
         binding.switchDarkMode.setOnCheckedChangeListener(null)
         binding.switchDarkMode.isChecked = state.darkMode
         binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setDarkMode(isChecked)
         }
+    }
+
+    private fun RoleEnum.roleDisplay(): String = when (this) {
+        RoleEnum.ROLE_ADMIN -> getString(R.string.role_admin)
+        RoleEnum.ROLE_KASIR -> getString(R.string.role_kasir)
+        RoleEnum.ROLE_GUDANG -> getString(R.string.role_gudang)
+        RoleEnum.ROLE_MANAGER -> getString(R.string.role_manager)
     }
 }

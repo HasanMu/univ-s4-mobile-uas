@@ -29,6 +29,9 @@ interface TransaksiDao {
     @Query("UPDATE transaksi SET status = :status WHERE id = :id")
     suspend fun updateStatus(id: Int, status: StatusTransaksi)
 
+    @Query("DELETE FROM transaksi WHERE id = :id")
+    suspend fun delete(id: Int)
+
     @Query("SELECT COUNT(*) FROM transaksi WHERE status = :status")
     suspend fun countByStatus(status: StatusTransaksi): Int
 
