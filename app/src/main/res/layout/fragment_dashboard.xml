@@ -1,407 +1,465 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
-    <!-- Hero Section (dark) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_dark"
-        android:orientation="vertical"
-        android:padding="@dimen/spacing_xl">
+        android:orientation="vertical">
 
+        <!-- Hero (dark) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:background="@color/background_dark"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_xl">
 
+            <!-- HeroTop: greeting/name + role badge + settings -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/login_greeting"
-                    android:textAppearance="@style/TextAppearance.Materialku.BodySmall"
-                    android:textColor="#718096" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_xs"
-                    android:text="Hasan"
-                    android:textAppearance="@style/TextAppearance.Materialku.Headline"
-                    android:textColor="@color/on_background_dark" />
-            </LinearLayout>
-
-            <!-- Role Badge -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/role_admin"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingHorizontal="14dp"
-                android:paddingVertical="8dp">
-
-                <!-- TODO: shield icon -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/role_admin"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextAppearance.Materialku.LabelMicro"
-                    android:textColor="@color/on_primary" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Stats Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_lg"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_sm"
-                android:layout_weight="1"
-                android:background="@color/dark_card"
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <TextView
-                    android:id="@+id/tvStatMaterial"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="128"
-                    android:textAppearance="@style/TextAppearance.Materialku.Stat"
-                    android:textColor="@color/on_background_dark" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dashboard_stat_material"
-                    android:textAppearance="@style/TextAppearance.Materialku.Caption"
-                    android:textColor="#718096" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_sm"
-                android:layout_weight="1"
-                android:background="@color/dark_card"
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <TextView
-                    android:id="@+id/tvStatTransaksi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="12"
-                    android:textAppearance="@style/TextAppearance.Materialku.Stat"
-                    android:textColor="@color/on_background_dark" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dashboard_stat_transaksi"
-                    android:textAppearance="@style/TextAppearance.Materialku.Caption"
-                    android:textColor="#718096" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/dark_card"
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <TextView
-                    android:id="@+id/tvStatKritis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3"
-                    android:textAppearance="@style/TextAppearance.Materialku.Stat"
-                    android:textColor="@color/on_background_dark" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dashboard_stat_kritis"
-                    android:textAppearance="@style/TextAppearance.Materialku.Caption"
-                    android:textColor="#718096" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Section Title -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_xl"
-        android:layout_marginTop="@dimen/spacing_xl"
-        android:text="@string/dashboard_menu_title"
-        android:textAppearance="@style/TextAppearance.Materialku.LabelMicro"
-        android:textColor="@color/on_surface_variant" />
-
-    <!-- Menu Grid -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="@dimen/spacing_xl"
-        android:paddingTop="@dimen/spacing_md">
-
-        <!-- Row 1 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_md"
-            android:orientation="horizontal">
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardMaterial"
-                style="@style/Widget.Materialku.CardView"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/height_menu_card"
-                android:layout_marginEnd="@dimen/spacing_md"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:contentPadding="@dimen/padding_card">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_greeting"
+                        android:textAppearance="@style/TextAppearance.Materialku.BodySmall"
+                        android:textColor="#718096" />
+
+                    <TextView
+                        android:id="@+id/tvUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:textAppearance="@style/TextAppearance.Materialku.Headline"
+                        android:textColor="@color/on_background_dark"
+                        tools:text="Hasan" />
+                </LinearLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvRoleBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_md"
+                    app:cardBackgroundColor="@color/role_admin"
+                    app:cardCornerRadius="@dimen/radius_chip"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                    <TextView
+                        android:id="@+id/tvRoleLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="14dp"
+                        android:paddingVertical="8dp"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.Materialku.LabelMicro"
+                        android:textColor="@color/on_primary"
+                        tools:text="ADMIN" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <ImageView
+                    android:id="@+id/btnSettings"
+                    android:layout_width="@dimen/icon_lg"
+                    android:layout_height="@dimen/icon_lg"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/settings_title"
+                    android:padding="2dp"
+                    android:src="@android:drawable/ic_menu_preferences"
+                    app:tint="@color/on_background_dark" />
+            </LinearLayout>
+
+            <!-- Stats row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_dark_card"
                     android:orientation="vertical"
-                    android:gravity="top|start">
+                    android:padding="14dp">
 
-                    <FrameLayout
-                        android:layout_width="@dimen/icon_wrap"
-                        android:layout_height="@dimen/icon_wrap"
-                        android:background="@color/primary_container">
-
-                        <!-- TODO: package icon -->
-                    </FrameLayout>
+                    <TextView
+                        android:id="@+id/tvStatMaterial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textAppearance="@style/TextAppearance.Materialku.Stat"
+                        android:textColor="@color/on_background_dark" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md"
-                        android:text="@string/menu_material"
-                        android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
-                        android:textColor="@color/on_surface" />
+                        android:text="@string/dashboard_stat_material"
+                        android:textAppearance="@style/TextAppearance.Materialku.Caption"
+                        android:textColor="#718096" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardKategori"
-                style="@style/Widget.Materialku.CardView"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/height_menu_card"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:contentPadding="@dimen/padding_card">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_dark_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
 
-                    <FrameLayout
-                        android:layout_width="@dimen/icon_wrap"
-                        android:layout_height="@dimen/icon_wrap"
-                        android:background="@color/badge_manager_bg">
-
-                        <!-- TODO: tags icon -->
-                    </FrameLayout>
+                    <TextView
+                        android:id="@+id/tvStatTransaksi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textAppearance="@style/TextAppearance.Materialku.Stat"
+                        android:textColor="@color/on_background_dark" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md"
-                        android:text="@string/menu_kategori"
-                        android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
-                        android:textColor="@color/on_surface" />
+                        android:text="@string/dashboard_stat_transaksi"
+                        android:textAppearance="@style/TextAppearance.Materialku.Caption"
+                        android:textColor="#718096" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_dark_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/tvStatKritis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textAppearance="@style/TextAppearance.Materialku.Stat"
+                        android:textColor="@color/error" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dashboard_stat_kritis"
+                        android:textAppearance="@style/TextAppearance.Materialku.Caption"
+                        android:textColor="#718096" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Row 2 -->
+        <!-- Section Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_xl"
+            android:layout_marginTop="@dimen/spacing_xl"
+            android:text="@string/dashboard_menu_title"
+            android:textAppearance="@style/TextAppearance.Materialku.LabelMicro"
+            android:textColor="@color/on_surface_variant" />
+
+        <!-- Menu Grid -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_md"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_xl"
+            android:paddingTop="@dimen/spacing_md">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardPos"
-                style="@style/Widget.Materialku.CardView"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/height_menu_card"
-                android:layout_marginEnd="@dimen/spacing_md"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:contentPadding="@dimen/padding_card">
+            <!-- Row 1: Material + Kategori -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMaterial"
+                    style="@style/Widget.Materialku.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_menu_card"
+                    android:layout_marginEnd="@dimen/spacing_md"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="@dimen/padding_card">
 
-                    <FrameLayout
-                        android:layout_width="@dimen/icon_wrap"
-                        android:layout_height="@dimen/icon_wrap"
-                        android:background="@color/badge_aman_bg">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                        <!-- TODO: shopping-cart icon -->
-                    </FrameLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/primary_container"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="M"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/on_primary_container" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md"
-                        android:text="@string/menu_pos"
-                        android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
-                        android:textColor="@color/on_surface" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardLaporan"
-                style="@style/Widget.Materialku.CardView"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/height_menu_card"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:contentPadding="@dimen/padding_card">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu_material"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/on_surface" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardKategori"
+                    style="@style/Widget.Materialku.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_menu_card"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="@dimen/padding_card">
 
-                    <FrameLayout
-                        android:layout_width="@dimen/icon_wrap"
-                        android:layout_height="@dimen/icon_wrap"
-                        android:background="@color/badge_gudang_bg">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                        <!-- TODO: trending-up icon -->
-                    </FrameLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/badge_manager_bg"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="K"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/role_manager" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md"
-                        android:text="@string/menu_laporan"
-                        android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
-                        android:textColor="@color/on_surface" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu_kategori"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/on_surface" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Row 2: POS + Laporan -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPos"
+                    style="@style/Widget.Materialku.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_menu_card"
+                    android:layout_marginEnd="@dimen/spacing_md"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="@dimen/padding_card">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/badge_aman_bg"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="P"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/role_kasir" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu_pos"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/on_surface" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardLaporan"
+                    style="@style/Widget.Materialku.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_menu_card"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="@dimen/padding_card">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/badge_gudang_bg"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="L"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/role_gudang" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu_laporan"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/on_surface" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Row 3: Stok + User -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardStok"
+                    style="@style/Widget.Materialku.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_menu_card"
+                    android:layout_marginEnd="@dimen/spacing_md"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="@dimen/padding_card">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/secondary_container"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="S"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/on_secondary_container" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu_stok"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/on_surface" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardUser"
+                    style="@style/Widget.Materialku.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_menu_card"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="@dimen/padding_card">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/primary_container"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="U"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/role_admin" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu_user"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/on_surface" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Row 3 -->
-        <LinearLayout
+        <!-- Logout -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            style="@style/Widget.Materialku.Button.Outlined"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/height_button"
+            android:layout_marginHorizontal="@dimen/spacing_xl"
+            android:layout_marginBottom="@dimen/spacing_xl"
+            android:text="@string/dashboard_logout"
+            android:textColor="@color/error"
+            app:icon="@android:drawable/ic_menu_close_clear_cancel"
+            app:iconTint="@color/error"
+            app:strokeColor="@color/error" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardStok"
-                style="@style/Widget.Materialku.CardView"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/height_menu_card"
-                android:layout_marginEnd="@dimen/spacing_md"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:contentPadding="@dimen/padding_card">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="@dimen/icon_wrap"
-                        android:layout_height="@dimen/icon_wrap"
-                        android:background="@color/secondary_container">
-
-                        <!-- TODO: warehouse icon -->
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md"
-                        android:text="@string/menu_stok"
-                        android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
-                        android:textColor="@color/on_surface" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardUser"
-                style="@style/Widget.Materialku.CardView"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/height_menu_card"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:contentPadding="@dimen/padding_card">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="@dimen/icon_wrap"
-                        android:layout_height="@dimen/icon_wrap"
-                        android:background="@color/primary_container">
-
-                        <!-- TODO: users icon -->
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md"
-                        android:text="@string/menu_user"
-                        android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
-                        android:textColor="@color/on_surface" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
     </LinearLayout>
 
-    <!-- Logout -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogout"
-        style="@style/Widget.Materialku.Button.Outlined"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_button"
-        android:layout_marginHorizontal="@dimen/spacing_xl"
-        android:layout_marginBottom="@dimen/spacing_xl"
-        android:text="@string/dashboard_logout"
-        app:icon="@android:drawable/ic_menu_close_clear_cancel"
-        app:iconTint="@color/error"
-        android:textColor="@color/error" />
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>
