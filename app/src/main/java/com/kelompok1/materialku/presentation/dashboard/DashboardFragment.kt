@@ -26,6 +26,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(
 
     override fun useLightStatusBarIcons(): Boolean = true
 
+    // Hero (bg gelap) di-extend ke atas status bar via applyStatusBarInsetToHero
+    // — supaya inset masuk ke hero, bukan ke root (yang bg-nya
+    // berbeda + akan bikin gap terang di atas hero). BaseFragment
+    // gak perlu apply ke root.
+    override fun useStatusBarInset(): Boolean = false
+
     override fun setupViews() {
         applyStatusBarInsetToHero()
         binding.cardMaterial.setOnClickListener {

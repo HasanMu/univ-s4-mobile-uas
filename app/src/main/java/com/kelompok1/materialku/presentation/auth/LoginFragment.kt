@@ -21,6 +21,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     override fun useLightStatusBarIcons(): Boolean = true
 
+    // Root layout pakai fitsSystemWindows di NestedScrollView — biar
+    // dia yang consume top inset. BaseFragment gak perlu tambah lagi.
+    override fun useStatusBarInset(): Boolean = false
+
     override fun setupViews() {
         binding.btnLogin.setOnClickListener { submit() }
         binding.etUsername.doAfterTextChanged { viewModel.resetError() }
