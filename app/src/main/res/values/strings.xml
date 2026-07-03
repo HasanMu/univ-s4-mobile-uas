@@ -46,10 +46,20 @@
     <string name="material_empty_desc">Tekan + untuk menambah</string>
 
     <!-- Kategori -->
-    <string name="kategori_title">Kategori &amp; Satuan</string>
+    <string name="kategori_title">Kategori</string>
     <string name="kategori_section">Kategori</string>
     <string name="satuan_section">Satuan</string>
-    <string name="kategori_add">+ Tambah Kategori</string>
+    <string name="kategori_add">Tambah Kategori</string>
+    <string name="kategori_edit">Edit Kategori</string>
+    <string name="kategori_form_nama">Nama kategori</string>
+    <string name="kategori_form_deskripsi">Deskripsi (opsional)</string>
+    <string name="kategori_form_aktif">Aktif</string>
+    <string name="kategori_status_aktif">Aktif</string>
+    <string name="kategori_status_nonaktif">Nonaktif</string>
+    <string name="kategori_empty">Belum ada kategori</string>
+    <string name="kategori_empty_desc">Tekan + untuk menambah</string>
+    <string name="kategori_delete_title">Hapus kategori?</string>
+    <string name="kategori_delete_message">%1$s akan dihapus permanen.</string>
     <string name="satuan_add">+ Tambah Satuan</string>
 
     <!-- POS -->
