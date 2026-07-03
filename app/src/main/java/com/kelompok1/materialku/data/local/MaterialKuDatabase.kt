@@ -6,17 +6,21 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.kelompok1.materialku.data.local.dao.ItemTransaksiDao
 import com.kelompok1.materialku.data.local.dao.KategoriDao
 import com.kelompok1.materialku.data.local.dao.MaterialDao
 import com.kelompok1.materialku.data.local.dao.SatuanDao
 import com.kelompok1.materialku.data.local.dao.StokLogDao
 import com.kelompok1.materialku.data.local.dao.SupplierDao
+import com.kelompok1.materialku.data.local.dao.TransaksiDao
 import com.kelompok1.materialku.data.local.dao.UserDao
+import com.kelompok1.materialku.data.local.entity.ItemTransaksiEntity
 import com.kelompok1.materialku.data.local.entity.KategoriEntity
 import com.kelompok1.materialku.data.local.entity.MaterialEntity
 import com.kelompok1.materialku.data.local.entity.SatuanEntity
 import com.kelompok1.materialku.data.local.entity.StokLogEntity
 import com.kelompok1.materialku.data.local.entity.SupplierEntity
+import com.kelompok1.materialku.data.local.entity.TransaksiEntity
 import com.kelompok1.materialku.data.local.entity.UserEntity
 import com.kelompok1.materialku.util.PasswordHasher
 import kotlinx.coroutines.CoroutineScope
@@ -30,9 +34,11 @@ import kotlinx.coroutines.launch
         SatuanEntity::class,
         SupplierEntity::class,
         MaterialEntity::class,
-        StokLogEntity::class
+        StokLogEntity::class,
+        TransaksiEntity::class,
+        ItemTransaksiEntity::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
@@ -44,6 +50,8 @@ abstract class MaterialKuDatabase : RoomDatabase() {
     abstract fun supplierDao(): SupplierDao
     abstract fun materialDao(): MaterialDao
     abstract fun stokLogDao(): StokLogDao
+    abstract fun transaksiDao(): TransaksiDao
+    abstract fun itemTransaksiDao(): ItemTransaksiDao
 
     companion object {
         private const val DB_NAME = "materialku.db"

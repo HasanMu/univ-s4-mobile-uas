@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/surface"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_xl">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_md"
+        android:text="@string/pos_cart"
+        android:textAppearance="@style/TextAppearance.Materialku.Title" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="320dp"
+        android:nestedScrollingEnabled="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="@dimen/spacing_md"
+        android:background="@color/outline_variant" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/pos_total"
+            android:textAppearance="@style/TextAppearance.Materialku.Body" />
+
+        <TextView
+            android:id="@+id/tvTotalSheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Materialku.Title"
+            android:textColor="@color/primary"
+            tools:text="Rp 130.000"
+            xmlns:tools="http://schemas.android.com/tools" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBayar"
+        style="@style/Widget.Materialku.Button.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_button"
+        android:layout_marginTop="@dimen/spacing_lg"
+        android:text="@string/pos_pay" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDraft"
+        style="@style/Widget.Materialku.Button.Outlined"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_button"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:text="@string/pos_draft" />
+
+</LinearLayout>
