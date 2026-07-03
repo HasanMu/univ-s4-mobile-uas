@@ -137,6 +137,7 @@
     <string name="settings_versi">Versi Aplikasi</string>
     <string name="settings_privasi">Kebijakan Privasi</string>
     <string name="settings_bantuan">Bantuan</string>
+    <string name="settings_soon">Segera hadir</string>
 
     <!-- Common -->
     <string name="badge_aman">AMAN</string>
