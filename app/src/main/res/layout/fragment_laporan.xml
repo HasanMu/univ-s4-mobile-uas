@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/spacing_md"
                     android:layout_weight="1"
-                    app:cardPadding="@dimen/padding_card">
+                    app:contentPadding="@dimen/padding_card">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -151,7 +151,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:cardPadding="@dimen/padding_card">
+                    app:contentPadding="@dimen/padding_card">
 
                     <LinearLayout
                         android:layout_width="match_parent"
