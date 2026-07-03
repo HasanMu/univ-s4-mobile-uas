@@ -21,6 +21,8 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(
 ) {
     private val viewModel: DashboardViewModel by viewModels()
 
+    override fun useLightStatusBarIcons(): Boolean = true
+
     override fun setupViews() {
         binding.cardMaterial.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_material)

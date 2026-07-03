@@ -19,12 +19,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 ) {
     private val viewModel: LoginViewModel by viewModels()
 
+    override fun useLightStatusBarIcons(): Boolean = true
+
     override fun setupViews() {
         binding.btnLogin.setOnClickListener { submit() }
-        binding.etPassword.setOnEditorActionListener { _, _, _ ->
-            submit()
-            true
-        }
         binding.etUsername.doAfterTextChanged { viewModel.resetError() }
         binding.etPassword.doAfterTextChanged { viewModel.resetError() }
     }
@@ -38,6 +36,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     private fun submit() {
+        // Tutup keyboard dulu supaya error tidak ketutup keyboard,
+        // dan supaya user jelas lihat progress spinner + tombol disable.
+        hideKeyboard()
         val username = binding.etUsername.text?.toString().orEmpty()
         val password = binding.etPassword.text?.toString().orEmpty()
         viewModel.login(username, password)
