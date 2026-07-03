@@ -6,12 +6,14 @@ import com.kelompok1.materialku.data.repository.MaterialRepositoryImpl
 import com.kelompok1.materialku.data.repository.SatuanRepositoryImpl
 import com.kelompok1.materialku.data.repository.SupplierRepositoryImpl
 import com.kelompok1.materialku.data.repository.PosRepositoryImpl
+import com.kelompok1.materialku.data.repository.ReportRepositoryImpl
 import com.kelompok1.materialku.data.repository.StokRepositoryImpl
 import com.kelompok1.materialku.data.repository.UserRepositoryImpl
 import com.kelompok1.materialku.domain.repository.IAuthRepository
 import com.kelompok1.materialku.domain.repository.IKategoriRepository
 import com.kelompok1.materialku.domain.repository.IMaterialRepository
 import com.kelompok1.materialku.domain.repository.IPosRepository
+import com.kelompok1.materialku.domain.repository.IReportRepository
 import com.kelompok1.materialku.domain.repository.ISatuanRepository
 import com.kelompok1.materialku.domain.repository.IStokRepository
 import com.kelompok1.materialku.domain.repository.ISupplierRepository
@@ -57,4 +59,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindPosRepository(impl: PosRepositoryImpl): IPosRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindReportRepository(impl: ReportRepositoryImpl): IReportRepository
 }

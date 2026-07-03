@@ -34,4 +34,29 @@ interface TransaksiDao {
 
     @Query("SELECT COUNT(*) FROM transaksi")
     suspend fun count(): Int
+
+    // Laporan queries — tanggal disimpan sebagai ISO-8601 LocalDateTime
+    // string, jadi range check pakai comparison string valid (lexical =
+    // chronological untuk format ISO).
+
+    @Query("SELECT * FROM transaksi WHERE status = :status AND tanggal >= :from AND tanggal < :to ORDER BY tanggal DESC, id DESC")
+    suspend fun listSelesaiInRange(
+        status: StatusTransaksi,
+        from: java.time.LocalDateTime,
+        to: java.time.LocalDateTime
+    ): List<TransaksiEntity>
+
+    @Query("SELECT COUNT(*) FROM transaksi WHERE status = :status AND tanggal >= :from AND tanggal < :to")
+    suspend fun countInRange(
+        status: StatusTransaksi,
+        from: java.time.LocalDateTime,
+        to: java.time.LocalDateTime
+    ): Int
+
+    @Query("SELECT COALESCE(SUM(totalHarga), 0) FROM transaksi WHERE status = :status AND tanggal >= :from AND tanggal < :to")
+    suspend fun sumTotalInRange(
+        status: StatusTransaksi,
+        from: java.time.LocalDateTime,
+        to: java.time.LocalDateTime
+    ): Double
 }

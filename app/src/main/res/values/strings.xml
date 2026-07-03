@@ -116,6 +116,10 @@
     <string name="laporan_periode_minggu">Minggu Ini</string>
     <string name="laporan_periode_bulan">Bulan Ini</string>
     <string name="laporan_periode_custom">Custom</string>
+    <string name="laporan_terjual_value">%1$d unit</string>
+    <string name="laporan_trx_kosong">Belum ada transaksi di periode ini</string>
+    <string name="laporan_kritis_kosong">Semua stok aman</string>
+    <string name="laporan_kritis_stok">%1$d (min: %2$d)</string>
 
     <!-- User -->
     <string name="user_title">Manajemen User</string>
