@@ -87,6 +87,9 @@ dependencies {
     // DataStore
     implementation(libs.datastore.preferences)
 
+    // Bcrypt
+    implementation(libs.bcrypt)
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
