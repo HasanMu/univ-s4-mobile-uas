@@ -1,0 +1,452 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "76a4e1daf79c0b25da48475df71dcb36",
+    "entities": [
+      {
+        "tableName": "user",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `username` TEXT NOT NULL, `passwordHash` TEXT NOT NULL, `role` TEXT NOT NULL, `aktif` INTEGER NOT NULL, `lastLogin` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passwordHash",
+            "columnName": "passwordHash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "aktif",
+            "columnName": "aktif",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastLogin",
+            "columnName": "lastLogin",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_user_username",
+            "unique": true,
+            "columnNames": [
+              "username"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_user_username` ON `${TABLE_NAME}` (`username`)"
+          }
+        ]
+      },
+      {
+        "tableName": "kategori",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nama` TEXT NOT NULL, `deskripsi` TEXT NOT NULL, `createdAt` TEXT NOT NULL, `aktif` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nama",
+            "columnName": "nama",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deskripsi",
+            "columnName": "deskripsi",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "aktif",
+            "columnName": "aktif",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_kategori_nama",
+            "unique": true,
+            "columnNames": [
+              "nama"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_kategori_nama` ON `${TABLE_NAME}` (`nama`)"
+          }
+        ]
+      },
+      {
+        "tableName": "satuan",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nama` TEXT NOT NULL, `simbol` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nama",
+            "columnName": "nama",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "simbol",
+            "columnName": "simbol",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_satuan_nama",
+            "unique": true,
+            "columnNames": [
+              "nama"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_satuan_nama` ON `${TABLE_NAME}` (`nama`)"
+          }
+        ]
+      },
+      {
+        "tableName": "supplier",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nama` TEXT NOT NULL, `kontak` TEXT NOT NULL, `alamat` TEXT NOT NULL, `aktif` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nama",
+            "columnName": "nama",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kontak",
+            "columnName": "kontak",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alamat",
+            "columnName": "alamat",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "aktif",
+            "columnName": "aktif",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "material",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `kode` TEXT NOT NULL, `nama` TEXT NOT NULL, `hargaJual` REAL NOT NULL, `stokSaat` INTEGER NOT NULL, `stokMin` INTEGER NOT NULL, `kategoriId` INTEGER NOT NULL, `satuanId` INTEGER NOT NULL, `supplierId` INTEGER, FOREIGN KEY(`kategoriId`) REFERENCES `kategori`(`id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`satuanId`) REFERENCES `satuan`(`id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`supplierId`) REFERENCES `supplier`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kode",
+            "columnName": "kode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nama",
+            "columnName": "nama",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hargaJual",
+            "columnName": "hargaJual",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stokSaat",
+            "columnName": "stokSaat",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stokMin",
+            "columnName": "stokMin",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kategoriId",
+            "columnName": "kategoriId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "satuanId",
+            "columnName": "satuanId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "supplierId",
+            "columnName": "supplierId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_material_kode",
+            "unique": true,
+            "columnNames": [
+              "kode"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_material_kode` ON `${TABLE_NAME}` (`kode`)"
+          },
+          {
+            "name": "index_material_kategoriId",
+            "unique": false,
+            "columnNames": [
+              "kategoriId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_material_kategoriId` ON `${TABLE_NAME}` (`kategoriId`)"
+          },
+          {
+            "name": "index_material_satuanId",
+            "unique": false,
+            "columnNames": [
+              "satuanId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_material_satuanId` ON `${TABLE_NAME}` (`satuanId`)"
+          },
+          {
+            "name": "index_material_supplierId",
+            "unique": false,
+            "columnNames": [
+              "supplierId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_material_supplierId` ON `${TABLE_NAME}` (`supplierId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "kategori",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "kategoriId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "satuan",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "satuanId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "supplier",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "supplierId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "stok_log",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `materialId` INTEGER NOT NULL, `jenis` TEXT NOT NULL, `qty` INTEGER NOT NULL, `tanggal` TEXT NOT NULL, `keterangan` TEXT NOT NULL, `userId` INTEGER NOT NULL, FOREIGN KEY(`materialId`) REFERENCES `material`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userId`) REFERENCES `user`(`id`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "materialId",
+            "columnName": "materialId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "jenis",
+            "columnName": "jenis",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "qty",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tanggal",
+            "columnName": "tanggal",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keterangan",
+            "columnName": "keterangan",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_stok_log_materialId",
+            "unique": false,
+            "columnNames": [
+              "materialId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_stok_log_materialId` ON `${TABLE_NAME}` (`materialId`)"
+          },
+          {
+            "name": "index_stok_log_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_stok_log_userId` ON `${TABLE_NAME}` (`userId`)"
+          },
+          {
+            "name": "index_stok_log_tanggal",
+            "unique": false,
+            "columnNames": [
+              "tanggal"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_stok_log_tanggal` ON `${TABLE_NAME}` (`tanggal`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "material",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "materialId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "user",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '76a4e1daf79c0b25da48475df71dcb36')"
+    ]
+  }
+}

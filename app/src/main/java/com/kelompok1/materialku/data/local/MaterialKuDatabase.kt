@@ -9,11 +9,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.kelompok1.materialku.data.local.dao.KategoriDao
 import com.kelompok1.materialku.data.local.dao.MaterialDao
 import com.kelompok1.materialku.data.local.dao.SatuanDao
+import com.kelompok1.materialku.data.local.dao.StokLogDao
 import com.kelompok1.materialku.data.local.dao.SupplierDao
 import com.kelompok1.materialku.data.local.dao.UserDao
 import com.kelompok1.materialku.data.local.entity.KategoriEntity
 import com.kelompok1.materialku.data.local.entity.MaterialEntity
 import com.kelompok1.materialku.data.local.entity.SatuanEntity
+import com.kelompok1.materialku.data.local.entity.StokLogEntity
 import com.kelompok1.materialku.data.local.entity.SupplierEntity
 import com.kelompok1.materialku.data.local.entity.UserEntity
 import com.kelompok1.materialku.util.PasswordHasher
@@ -27,9 +29,10 @@ import kotlinx.coroutines.launch
         KategoriEntity::class,
         SatuanEntity::class,
         SupplierEntity::class,
-        MaterialEntity::class
+        MaterialEntity::class,
+        StokLogEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 @TypeConverters(Converters::class)
@@ -40,6 +43,7 @@ abstract class MaterialKuDatabase : RoomDatabase() {
     abstract fun satuanDao(): SatuanDao
     abstract fun supplierDao(): SupplierDao
     abstract fun materialDao(): MaterialDao
+    abstract fun stokLogDao(): StokLogDao
 
     companion object {
         private const val DB_NAME = "materialku.db"

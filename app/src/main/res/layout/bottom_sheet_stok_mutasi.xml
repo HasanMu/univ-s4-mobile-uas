@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/surface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_xl">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_lg"
+            android:text="@string/stok_mutasi_title"
+            android:textAppearance="@style/TextAppearance.Materialku.Title" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilMaterial"
+            style="@style/Widget.Materialku.TextInputLayout.ExposedDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/stok_mutasi_material">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/actMaterial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:layout_marginBottom="@dimen/spacing_sm"
+            android:text="@string/stok_tipe"
+            android:textAppearance="@style/TextAppearance.Materialku.LabelMicro"
+            android:textColor="@color/on_surface_variant" />
+
+        <RadioGroup
+            android:id="@+id/rgJenis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbMasuk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/stok_masuk"
+                android:textAppearance="@style/TextAppearance.Materialku.Body" />
+
+            <RadioButton
+                android:id="@+id/rbKeluar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/stok_keluar"
+                android:textAppearance="@style/TextAppearance.Materialku.Body" />
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilQty"
+            style="@style/Widget.Materialku.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:hint="@string/stok_jumlah">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etQty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilKeterangan"
+            style="@style/Widget.Materialku.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:hint="@string/stok_alasan">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etKeterangan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:maxLines="2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvStokPreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:textAppearance="@style/TextAppearance.Materialku.BodySmall"
+            android:textColor="@color/on_surface_variant"
+            tools:text="Stok setelah: 60" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSimpan"
+            style="@style/Widget.Materialku.Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_button"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/action_save" />
+
+    </LinearLayout>
+
+</ScrollView>

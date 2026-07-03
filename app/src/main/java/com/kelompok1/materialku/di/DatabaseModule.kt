@@ -6,6 +6,7 @@ import com.kelompok1.materialku.data.local.PreferencesDataStore
 import com.kelompok1.materialku.data.local.dao.KategoriDao
 import com.kelompok1.materialku.data.local.dao.MaterialDao
 import com.kelompok1.materialku.data.local.dao.SatuanDao
+import com.kelompok1.materialku.data.local.dao.StokLogDao
 import com.kelompok1.materialku.data.local.dao.SupplierDao
 import com.kelompok1.materialku.data.local.dao.UserDao
 import com.kelompok1.materialku.util.PasswordHasher
@@ -47,6 +48,9 @@ object DatabaseModule {
 
     @Provides
     fun provideMaterialDao(db: MaterialKuDatabase): MaterialDao = db.materialDao()
+
+    @Provides
+    fun provideStokLogDao(db: MaterialKuDatabase): StokLogDao = db.stokLogDao()
 
     @Provides
     @Singleton
