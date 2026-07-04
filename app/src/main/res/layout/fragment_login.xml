@@ -18,21 +18,13 @@
         android:paddingBottom="@dimen/spacing_xl">
 
         <!-- Logo section -->
-        <FrameLayout
+        <ImageView
             android:layout_width="@dimen/logo_size"
             android:layout_height="@dimen/logo_size"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/spacing_3xl"
-            android:background="@drawable/bg_logo_frame">
-
-            <ImageView
-                android:layout_width="@dimen/icon_xl"
-                android:layout_height="@dimen/icon_xl"
-                android:layout_gravity="center"
-                android:contentDescription="@string/app_name"
-                android:src="@android:drawable/ic_dialog_info"
-                app:tint="@color/on_primary" />
-        </FrameLayout>
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_materialku" />
 
         <TextView
             android:layout_width="wrap_content"

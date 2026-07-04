@@ -17,7 +17,7 @@
     <string name="dashboard_stat_material">Material</string>
     <string name="dashboard_stat_transaksi">Transaksi</string>
     <string name="dashboard_stat_kritis">Kritis</string>
-    <string name="dashboard_logout">KELUAR</string>
+    <string name="dashboard_logout">KELUAR AKUN</string>
 
     <!-- Menu items -->
     <string name="menu_material">Material</string>
