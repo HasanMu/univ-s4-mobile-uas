@@ -1,8 +1,20 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
 }
+
+// Baca kredensial signing dari local.properties (gitignored). File keystore
+// ada di ../keystore/materialku-release.jks (juga gitignored). Kalau
+// property gak ada, signingConfig di-skip supaya CI/dev tetap bisa build
+// unsigned/debug tanpa harus punya keystore.
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+val hasReleaseSigning = localProps.getProperty("MATERIALKU_RELEASE_STORE_FILE") != null
 
 android {
     namespace = "com.kelompok1.materialku"
@@ -17,12 +29,23 @@ android {
         minSdk = 30
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
+        }
+    }
+
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(localProps.getProperty("MATERIALKU_RELEASE_STORE_FILE"))
+                storePassword = localProps.getProperty("MATERIALKU_RELEASE_STORE_PASSWORD")
+                keyAlias = localProps.getProperty("MATERIALKU_RELEASE_KEY_ALIAS")
+                keyPassword = localProps.getProperty("MATERIALKU_RELEASE_KEY_PASSWORD")
+            }
         }
     }
 
@@ -33,6 +56,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
     compileOptions {
