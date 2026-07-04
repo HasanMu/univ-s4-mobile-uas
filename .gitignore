@@ -1,4 +1,6 @@
 *.apk
+# APK release yang dishare di folder apk/ tetap di-track (untuk demo/deliverable)
+!apk/*.apk
 *.aab
 *.ap_
 *.dex
