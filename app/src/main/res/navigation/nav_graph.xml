@@ -88,7 +88,21 @@
         android:id="@+id/laporanFragment"
         android:name="com.kelompok1.materialku.presentation.laporan.LaporanFragment"
         android:label="@string/laporan_title"
-        tools:layout="@layout/fragment_laporan" />
+        tools:layout="@layout/fragment_laporan">
+        <action
+            android:id="@+id/action_laporan_to_trx_detail"
+            app:destination="@id/trxDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trxDetailFragment"
+        android:name="com.kelompok1.materialku.presentation.laporan.TrxDetailFragment"
+        android:label="@string/trx_detail_title"
+        tools:layout="@layout/fragment_trx_detail">
+        <argument
+            android:name="transaksiId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
 
     <!-- User -->
     <fragment

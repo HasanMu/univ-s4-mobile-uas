@@ -3,10 +3,13 @@ package com.kelompok1.materialku.data.repository
 import com.kelompok1.materialku.data.local.dao.ItemTransaksiDao
 import com.kelompok1.materialku.data.local.dao.MaterialDao
 import com.kelompok1.materialku.data.local.dao.TransaksiDao
+import com.kelompok1.materialku.data.local.dao.UserDao
 import com.kelompok1.materialku.domain.model.StatusTransaksi
 import com.kelompok1.materialku.domain.repository.IReportRepository
 import com.kelompok1.materialku.domain.repository.LaporanData
 import com.kelompok1.materialku.domain.repository.LaporanPeriode
+import com.kelompok1.materialku.domain.repository.TrxDetail
+import com.kelompok1.materialku.domain.repository.TrxDetailItem
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -18,8 +21,24 @@ import javax.inject.Singleton
 class ReportRepositoryImpl @Inject constructor(
     private val transaksiDao: TransaksiDao,
     private val itemTransaksiDao: ItemTransaksiDao,
-    private val materialDao: MaterialDao
+    private val materialDao: MaterialDao,
+    private val userDao: UserDao
 ) : IReportRepository {
+
+    override suspend fun getTrxDetail(transaksiId: Int): TrxDetail? {
+        val trx = transaksiDao.findById(transaksiId)?.toDomain() ?: return null
+        val items = itemTransaksiDao.findByTransaksi(transaksiId).map { e ->
+            val mat = materialDao.findById(e.materialId)
+            TrxDetailItem(
+                namaMaterial = mat?.nama ?: "(material dihapus)",
+                qty = e.qty,
+                hargaSatuan = e.hargaSatuan,
+                subtotal = e.subtotal
+            )
+        }
+        val kasir = userDao.findById(trx.userId)?.username ?: "(user dihapus)"
+        return TrxDetail(transaksi = trx, kasir = kasir, items = items)
+    }
 
     override suspend fun buildLaporan(periode: LaporanPeriode): LaporanData {
         val (from, to) = resolveRange(periode)
