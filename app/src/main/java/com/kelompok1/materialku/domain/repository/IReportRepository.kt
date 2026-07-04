@@ -3,6 +3,7 @@ package com.kelompok1.materialku.domain.repository
 import com.kelompok1.materialku.domain.model.Material
 import com.kelompok1.materialku.domain.model.Transaksi
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 interface IReportRepository {
     suspend fun buildLaporan(periode: LaporanPeriode): LaporanData
@@ -13,7 +14,14 @@ sealed class LaporanPeriode(val label: String) {
     data object MingguIni : LaporanPeriode("Minggu Ini")
     data object BulanIni : LaporanPeriode("Bulan Ini")
     data class Custom(val from: LocalDate, val to: LocalDate) :
-        LaporanPeriode("Custom: $from → $to")
+        LaporanPeriode(
+            "${from.format(CUSTOM_FMT)} — ${to.format(CUSTOM_FMT)}"
+        )
+
+    companion object {
+        private val CUSTOM_FMT: DateTimeFormatter =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    }
 }
 
 data class LaporanData(
