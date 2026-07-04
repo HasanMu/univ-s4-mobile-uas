@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@android:drawable/ic_menu_gallery"
+        android:src="@drawable/ic_inbox"
         android:alpha="0.3"
         android:contentDescription="@string/material_empty" />
 
