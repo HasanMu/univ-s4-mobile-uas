@@ -84,6 +84,12 @@ class LaporanFragment : BaseFragment<FragmentLaporanBinding>(
                 itemBinding.tvNoFaktur.text = t.noFaktur
                 itemBinding.tvTanggal.text = t.tanggal.format(trxDateFormat)
                 itemBinding.tvHarga.text = Formatter.rupiah(t.totalHarga)
+                itemBinding.root.setOnClickListener {
+                    findNavController().navigate(
+                        R.id.action_laporan_to_trx_detail,
+                        android.os.Bundle().apply { putInt("transaksiId", t.id) }
+                    )
+                }
                 binding.rvTrx.addView(itemBinding.root)
             }
         }

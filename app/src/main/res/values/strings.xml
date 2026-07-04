@@ -128,6 +128,15 @@
     <string name="laporan_kritis_kosong">Semua stok aman</string>
     <string name="laporan_kritis_stok">%1$d (min: %2$d)</string>
 
+    <!-- Transaksi detail -->
+    <string name="trx_detail_title">Detail Transaksi</string>
+    <string name="trx_detail_tanggal">Tanggal</string>
+    <string name="trx_detail_kasir">Kasir</string>
+    <string name="trx_detail_items">ITEM</string>
+    <string name="trx_detail_items_kosong">Tidak ada item</string>
+    <string name="trx_detail_qty_harga">%1$d × %2$s</string>
+    <string name="trx_detail_total">Total</string>
+
     <!-- User -->
     <string name="user_title">Manajemen User</string>
     <string name="user_add">Tambah User</string>

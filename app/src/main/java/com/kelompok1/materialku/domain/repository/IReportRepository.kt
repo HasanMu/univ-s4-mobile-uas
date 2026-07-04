@@ -7,7 +7,21 @@ import java.time.format.DateTimeFormatter
 
 interface IReportRepository {
     suspend fun buildLaporan(periode: LaporanPeriode): LaporanData
+    suspend fun getTrxDetail(transaksiId: Int): TrxDetail?
 }
+
+data class TrxDetail(
+    val transaksi: Transaksi,
+    val kasir: String,
+    val items: List<TrxDetailItem>
+)
+
+data class TrxDetailItem(
+    val namaMaterial: String,
+    val qty: Int,
+    val hargaSatuan: Double,
+    val subtotal: Double
+)
 
 sealed class LaporanPeriode(val label: String) {
     data object HariIni : LaporanPeriode("Hari Ini")
