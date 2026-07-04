@@ -18,8 +18,11 @@ import com.kelompok1.materialku.domain.repository.LaporanPeriode
 import com.kelompok1.materialku.presentation.base.BaseFragment
 import com.kelompok1.materialku.util.Formatter
 import com.kelompok1.materialku.util.PdfExporter
+import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
@@ -113,17 +116,33 @@ class LaporanFragment : BaseFragment<FragmentLaporanBinding>(
         menu.menu.add(0, 0, 0, R.string.laporan_periode_hari)
         menu.menu.add(0, 1, 1, R.string.laporan_periode_minggu)
         menu.menu.add(0, 2, 2, R.string.laporan_periode_bulan)
+        menu.menu.add(0, 3, 3, R.string.laporan_periode_custom)
         menu.setOnMenuItemClickListener { item ->
-            val periode = when (item.itemId) {
-                0 -> LaporanPeriode.HariIni
-                1 -> LaporanPeriode.MingguIni
-                2 -> LaporanPeriode.BulanIni
-                else -> LaporanPeriode.HariIni
+            when (item.itemId) {
+                0 -> viewModel.load(LaporanPeriode.HariIni)
+                1 -> viewModel.load(LaporanPeriode.MingguIni)
+                2 -> viewModel.load(LaporanPeriode.BulanIni)
+                3 -> showCustomRangePicker()
             }
-            viewModel.load(periode)
             true
         }
         menu.show()
+    }
+
+    private fun showCustomRangePicker() {
+        val picker = MaterialDatePicker.Builder.dateRangePicker()
+            .setTitleText(R.string.laporan_periode_custom_title)
+            .build()
+        picker.addOnPositiveButtonClickListener { selection ->
+            val fromMs = selection.first ?: return@addOnPositiveButtonClickListener
+            val toMs = selection.second ?: return@addOnPositiveButtonClickListener
+            // MaterialDatePicker returns UTC epoch millis at 00:00 UTC — convert
+            // to LocalDate in UTC agar tanggal yang ditap = tanggal yang dipakai.
+            val from = Instant.ofEpochMilli(fromMs).atZone(ZoneOffset.UTC).toLocalDate()
+            val to = Instant.ofEpochMilli(toMs).atZone(ZoneOffset.UTC).toLocalDate()
+            viewModel.load(LaporanPeriode.Custom(from, to))
+        }
+        picker.show(parentFragmentManager, "laporan_custom_range")
     }
 
     private fun exportPdf(data: LaporanData) {
