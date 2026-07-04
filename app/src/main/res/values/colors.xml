@@ -60,4 +60,7 @@
     <!-- Legacy -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Launcher icon (adaptive icon background, matches logo bg) -->
+    <color name="ic_launcher_background">#1A1D21</color>
 </resources>
