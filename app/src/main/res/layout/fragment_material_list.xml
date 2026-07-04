@@ -24,7 +24,7 @@
                 android:layout_width="@dimen/icon_lg"
                 android:layout_height="@dimen/icon_lg"
                 android:contentDescription="@string/action_back"
-                android:src="@android:drawable/ic_media_previous"
+                android:src="@drawable/ic_arrow_back"
                 app:tint="@color/on_background" />
 
             <TextView
@@ -57,7 +57,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/action_search"
                 android:padding="4dp"
-                android:src="@android:drawable/ic_menu_search"
+                android:src="@drawable/ic_search"
                 app:tint="@color/on_background" />
         </LinearLayout>
 
@@ -144,7 +144,7 @@
         android:layout_margin="@dimen/spacing_lg"
         android:backgroundTint="@color/primary"
         android:contentDescription="@string/material_add"
-        android:src="@android:drawable/ic_menu_add"
+        android:src="@drawable/ic_add"
         app:tint="@color/on_primary" />
 
 </FrameLayout>

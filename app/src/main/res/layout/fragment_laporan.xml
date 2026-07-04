@@ -20,7 +20,7 @@
             android:layout_width="@dimen/icon_lg"
             android:layout_height="@dimen/icon_lg"
             android:contentDescription="@string/action_back"
-            android:src="@android:drawable/ic_media_previous"
+            android:src="@drawable/ic_arrow_back"
             app:tint="@color/on_background" />
 
         <TextView
@@ -74,7 +74,7 @@
                 <ImageView
                     android:layout_width="@dimen/icon_md"
                     android:layout_height="@dimen/icon_md"
-                    android:src="@android:drawable/arrow_down_float"
+                    android:src="@drawable/ic_arrow_drop_down"
                     app:tint="@color/on_surface_variant" />
             </LinearLayout>
 

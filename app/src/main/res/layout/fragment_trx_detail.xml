@@ -21,7 +21,7 @@
             android:layout_width="@dimen/icon_lg"
             android:layout_height="@dimen/icon_lg"
             android:contentDescription="@string/action_back"
-            android:src="@android:drawable/ic_media_previous"
+            android:src="@drawable/ic_arrow_back"
             app:tint="@color/on_background" />
 
         <TextView

@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_lg"
             android:hint="@string/login_username_hint"
-            app:startIconDrawable="@android:drawable/ic_menu_myplaces"
+            app:startIconDrawable="@drawable/ic_person"
             app:startIconTint="@color/on_surface_variant">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -105,7 +105,7 @@
             android:hint="@string/login_password_hint"
             app:endIconMode="password_toggle"
             app:endIconTint="@color/on_surface_variant"
-            app:startIconDrawable="@android:drawable/ic_lock_idle_lock"
+            app:startIconDrawable="@drawable/ic_lock"
             app:startIconTint="@color/on_surface_variant">
 
             <com.google.android.material.textfield.TextInputEditText

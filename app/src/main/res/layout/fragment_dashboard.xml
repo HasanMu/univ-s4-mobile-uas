@@ -82,7 +82,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@string/settings_title"
                     android:padding="2dp"
-                    android:src="@android:drawable/ic_menu_preferences"
+                    android:src="@drawable/ic_settings"
                     app:tint="@color/on_background_dark" />
             </LinearLayout>
 
@@ -458,7 +458,7 @@
             android:layout_marginBottom="@dimen/spacing_xl"
             android:text="@string/dashboard_logout"
             android:textColor="@color/error"
-            app:icon="@android:drawable/ic_menu_close_clear_cancel"
+            app:icon="@drawable/ic_logout"
             app:iconTint="@color/error"
             app:strokeColor="@color/error" />
 
