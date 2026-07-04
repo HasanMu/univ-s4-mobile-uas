@@ -197,6 +197,13 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCetakStruk"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_button"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:text="@string/trx_detail_cetak" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

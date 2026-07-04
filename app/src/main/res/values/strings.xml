@@ -136,6 +136,15 @@
     <string name="trx_detail_items_kosong">Tidak ada item</string>
     <string name="trx_detail_qty_harga">%1$d × %2$s</string>
     <string name="trx_detail_total">Total</string>
+    <string name="trx_detail_cetak">Cetak Struk</string>
+
+    <!-- Struk preview -->
+    <string name="struk_preview_title">Preview Struk</string>
+    <string name="struk_preview_hint">Format ini yang akan dikirim ke thermal printer (58mm)</string>
+    <string name="struk_preview_loading">Memuat…</string>
+    <string name="struk_preview_notfound">Detail transaksi tidak ditemukan</string>
+    <string name="struk_preview_share">Bagikan</string>
+    <string name="action_close">Tutup</string>
 
     <!-- User -->
     <string name="user_title">Manajemen User</string>

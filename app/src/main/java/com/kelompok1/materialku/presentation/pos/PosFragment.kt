@@ -16,6 +16,7 @@ import com.kelompok1.materialku.R
 import com.kelompok1.materialku.databinding.FragmentPosBinding
 import com.kelompok1.materialku.domain.model.StatusTransaksi
 import com.kelompok1.materialku.presentation.base.BaseFragment
+import com.kelompok1.materialku.presentation.laporan.StrukPreviewDialog
 import com.kelompok1.materialku.util.Formatter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -139,7 +140,7 @@ class PosFragment : BaseFragment<FragmentPosBinding>(
             StatusTransaksi.DRAFT -> getString(R.string.status_draft)
             StatusTransaksi.BATAL -> "BATAL"
         }
-        AlertDialog.Builder(requireContext())
+        val builder = AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.pos_success_title, statusLabel))
             .setMessage(
                 getString(
@@ -149,7 +150,12 @@ class PosFragment : BaseFragment<FragmentPosBinding>(
                 )
             )
             .setPositiveButton("OK", null)
-            .show()
+        if (event.status == StatusTransaksi.SELESAI) {
+            builder.setNeutralButton(R.string.trx_detail_cetak) { _, _ ->
+                StrukPreviewDialog.show(parentFragmentManager, event.result.transaksiId)
+            }
+        }
+        builder.show()
     }
 
     private fun toast(text: String) {

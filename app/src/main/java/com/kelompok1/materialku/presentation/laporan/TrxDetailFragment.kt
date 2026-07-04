@@ -22,10 +22,19 @@ class TrxDetailFragment : BaseFragment<FragmentTrxDetailBinding>(
     private val viewModel: TrxDetailViewModel by viewModels()
     private val dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
 
+    private var currentTrxId: Int = -1
+
     override fun setupViews() {
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
         val transaksiId = arguments?.getInt("transaksiId", -1) ?: -1
+        currentTrxId = transaksiId
         if (transaksiId > 0) viewModel.load(transaksiId)
+
+        binding.btnCetakStruk.setOnClickListener {
+            if (currentTrxId > 0) {
+                StrukPreviewDialog.show(parentFragmentManager, currentTrxId)
+            }
+        }
     }
 
     override fun observeViewModel() {
