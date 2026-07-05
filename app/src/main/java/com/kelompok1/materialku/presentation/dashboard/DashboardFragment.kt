@@ -52,6 +52,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(
         binding.cardUser.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_user)
         }
+        binding.cardSupplier.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboard_to_supplier)
+        }
         binding.btnSettings.setOnClickListener {
             findNavController().navigate(R.id.action_dashboard_to_settings)
         }
@@ -133,6 +136,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(
             binding.cardMaterial.visibility = View.VISIBLE
             binding.cardKategori.visibility = View.VISIBLE
             binding.cardStok.visibility = View.VISIBLE
+            binding.cardSupplier.visibility = View.VISIBLE
         }
         RoleEnum.ROLE_MANAGER -> {
             hideAll()
@@ -140,6 +144,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(
             binding.cardKategori.visibility = View.VISIBLE
             binding.cardStok.visibility = View.VISIBLE
             binding.cardLaporan.visibility = View.VISIBLE
+            binding.cardSupplier.visibility = View.VISIBLE
         }
     }
 
@@ -150,6 +155,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(
         binding.cardLaporan.visibility = View.VISIBLE
         binding.cardStok.visibility = View.VISIBLE
         binding.cardUser.visibility = View.VISIBLE
+        binding.cardSupplier.visibility = View.VISIBLE
     }
 
     private fun hideAll() {
@@ -159,6 +165,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(
         binding.cardLaporan.visibility = View.INVISIBLE
         binding.cardStok.visibility = View.INVISIBLE
         binding.cardUser.visibility = View.INVISIBLE
+        binding.cardSupplier.visibility = View.INVISIBLE
     }
 }
 

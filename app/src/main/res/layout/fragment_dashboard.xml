@@ -365,6 +365,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
                 android:orientation="horizontal">
 
                 <com.google.android.material.card.MaterialCardView
@@ -445,6 +446,58 @@
                             android:textColor="@color/on_surface" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Row 4: Supplier + spacer -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardSupplier"
+                    style="@style/Widget.Materialku.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_menu_card"
+                    android:layout_marginEnd="@dimen/spacing_md"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:contentPadding="@dimen/padding_card">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/badge_gudang_bg"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="Sp"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/role_gudang" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu_supplier"
+                            android:textAppearance="@style/TextAppearance.Materialku.TitleSmall"
+                            android:textColor="@color/on_surface" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_menu_card"
+                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
 

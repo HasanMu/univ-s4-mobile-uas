@@ -30,6 +30,7 @@
         <action android:id="@+id/action_dashboard_to_stok" app:destination="@id/stokListFragment" />
         <action android:id="@+id/action_dashboard_to_laporan" app:destination="@id/laporanFragment" />
         <action android:id="@+id/action_dashboard_to_user" app:destination="@id/userFragment" />
+        <action android:id="@+id/action_dashboard_to_supplier" app:destination="@id/supplierFragment" />
         <action android:id="@+id/action_dashboard_to_settings" app:destination="@id/settingsFragment" />
         <action android:id="@+id/action_dashboard_to_login" app:destination="@id/loginFragment" app:popUpTo="@id/dashboardFragment" app:popUpToInclusive="true" />
     </fragment>
@@ -110,6 +111,13 @@
         android:name="com.kelompok1.materialku.presentation.user.UserFragment"
         android:label="@string/user_title"
         tools:layout="@layout/fragment_user" />
+
+    <!-- Supplier -->
+    <fragment
+        android:id="@+id/supplierFragment"
+        android:name="com.kelompok1.materialku.presentation.supplier.SupplierFragment"
+        android:label="@string/supplier_title"
+        tools:layout="@layout/fragment_supplier" />
 
     <!-- Settings -->
     <fragment
