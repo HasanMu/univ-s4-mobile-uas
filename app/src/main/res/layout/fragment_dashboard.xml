@@ -189,6 +189,7 @@
 
             <!-- Row 1: Material + Kategori -->
             <LinearLayout
+                android:id="@+id/rowMenu1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_md"
@@ -276,6 +277,7 @@
 
             <!-- Row 2: POS + Laporan -->
             <LinearLayout
+                android:id="@+id/rowMenu2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_md"
@@ -363,6 +365,7 @@
 
             <!-- Row 3: Stok + User -->
             <LinearLayout
+                android:id="@+id/rowMenu3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/spacing_md"
@@ -450,6 +453,7 @@
 
             <!-- Row 4: Supplier + spacer -->
             <LinearLayout
+                android:id="@+id/rowMenu4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

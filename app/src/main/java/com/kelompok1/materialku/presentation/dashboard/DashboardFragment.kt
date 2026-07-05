@@ -2,6 +2,8 @@ package com.kelompok1.materialku.presentation.dashboard
 
 import android.content.res.ColorStateList
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.Space
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -11,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.card.MaterialCardView
 import com.kelompok1.materialku.R
 import com.kelompok1.materialku.databinding.FragmentDashboardBinding
 import com.kelompok1.materialku.domain.model.RoleEnum
@@ -122,50 +125,62 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding>(
      * Role access matrix — sesuai CONTRIBUTING.md.
      * Screen yang tidak visible di-hide (GONE) untuk menghilangkan celah spacing.
      */
-    private fun applyRoleVisibility(role: RoleEnum) = when (role) {
-        RoleEnum.ROLE_ADMIN -> {
-            // Semua card visible
-            showAll()
-        }
-        RoleEnum.ROLE_KASIR -> {
-            hideAll()
-            binding.cardPos.visibility = View.VISIBLE
-        }
-        RoleEnum.ROLE_GUDANG -> {
-            hideAll()
-            binding.cardMaterial.visibility = View.VISIBLE
-            binding.cardKategori.visibility = View.VISIBLE
-            binding.cardStok.visibility = View.VISIBLE
-            binding.cardSupplier.visibility = View.VISIBLE
-        }
-        RoleEnum.ROLE_MANAGER -> {
-            hideAll()
-            binding.cardMaterial.visibility = View.VISIBLE
-            binding.cardKategori.visibility = View.VISIBLE
-            binding.cardStok.visibility = View.VISIBLE
-            binding.cardLaporan.visibility = View.VISIBLE
-            binding.cardSupplier.visibility = View.VISIBLE
-        }
+    /**
+     * Kartu yang boleh dilihat per role. Urutan di list = urutan tampil di grid
+     * (kiri-atas ke bawah). Re-pack 2-per-baris supaya nggak ada gap kosong.
+     */
+    private fun cardsForRole(role: RoleEnum): List<MaterialCardView> = when (role) {
+        RoleEnum.ROLE_ADMIN -> listOf(
+            binding.cardMaterial, binding.cardKategori,
+            binding.cardPos, binding.cardLaporan,
+            binding.cardStok, binding.cardUser,
+            binding.cardSupplier
+        )
+        RoleEnum.ROLE_KASIR -> listOf(binding.cardPos)
+        RoleEnum.ROLE_GUDANG -> listOf(
+            binding.cardMaterial, binding.cardKategori,
+            binding.cardStok, binding.cardSupplier
+        )
+        RoleEnum.ROLE_MANAGER -> listOf(
+            binding.cardMaterial, binding.cardKategori,
+            binding.cardStok, binding.cardLaporan,
+            binding.cardSupplier
+        )
     }
 
-    private fun showAll() {
-        binding.cardMaterial.visibility = View.VISIBLE
-        binding.cardKategori.visibility = View.VISIBLE
-        binding.cardPos.visibility = View.VISIBLE
-        binding.cardLaporan.visibility = View.VISIBLE
-        binding.cardStok.visibility = View.VISIBLE
-        binding.cardUser.visibility = View.VISIBLE
-        binding.cardSupplier.visibility = View.VISIBLE
-    }
+    private fun applyRoleVisibility(role: RoleEnum) {
+        val visible = cardsForRole(role)
+        val rows = listOf(binding.rowMenu1, binding.rowMenu2, binding.rowMenu3, binding.rowMenu4)
 
-    private fun hideAll() {
-        binding.cardMaterial.visibility = View.INVISIBLE
-        binding.cardKategori.visibility = View.INVISIBLE
-        binding.cardPos.visibility = View.INVISIBLE
-        binding.cardLaporan.visibility = View.INVISIBLE
-        binding.cardStok.visibility = View.INVISIBLE
-        binding.cardUser.visibility = View.INVISIBLE
-        binding.cardSupplier.visibility = View.INVISIBLE
+        // Detach semua card dari row asalnya biar bisa disusun ulang.
+        rows.forEach { it.removeAllViews() }
+
+        val spacingMd = resources.getDimensionPixelSize(R.dimen.spacing_md)
+        val cardHeight = resources.getDimensionPixelSize(R.dimen.height_menu_card)
+
+        // Isi row 2-per-baris.
+        visible.chunked(2).forEachIndexed { rowIdx, pair ->
+            val row = rows.getOrNull(rowIdx) ?: return@forEachIndexed
+            pair.forEachIndexed { colIdx, card ->
+                card.visibility = View.VISIBLE
+                val lp = LinearLayout.LayoutParams(0, cardHeight, 1f)
+                if (colIdx == 0 && pair.size == 2) lp.marginEnd = spacingMd
+                row.addView(card, lp)
+            }
+            // Ganjil di kanan: tambah Space filler biar card tetap 50% lebar.
+            if (pair.size == 1) {
+                val filler = Space(requireContext())
+                val fillerLp = LinearLayout.LayoutParams(0, cardHeight, 1f)
+                // Card kiri butuh margin end supaya jarak ke filler konsisten.
+                (row.getChildAt(0).layoutParams as LinearLayout.LayoutParams).marginEnd = spacingMd
+                row.addView(filler, fillerLp)
+            }
+            row.visibility = View.VISIBLE
+        }
+        // Row sisa yang nggak kepakai: sembunyikan.
+        for (i in visible.chunked(2).size until rows.size) {
+            rows[i].visibility = View.GONE
+        }
     }
 }
 
