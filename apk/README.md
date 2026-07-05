@@ -18,12 +18,12 @@ Folder ini berisi APK release siap install untuk MaterialKu.
 
 ## Detail build
 
-- **Version**: 1.0.0 (versionCode 1)
+- **Version**: 1.1.0 (versionCode 2)
 - **Signing**: RSA 2048, self-signed (SHA384withRSA), valid 10.000 hari
 - **minSdk**: 30 (Android 11)
 - **targetSdk**: 36 (Android 15+)
 - **Package**: `com.kelompok1.materialku`
-- **Ukuran**: ~16 MB
+- **Ukuran**: ~17 MB
 
 ## Build ulang dari source
 
