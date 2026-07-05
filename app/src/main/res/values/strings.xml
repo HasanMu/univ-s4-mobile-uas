@@ -26,6 +26,7 @@
     <string name="menu_laporan">Laporan</string>
     <string name="menu_stok">Stok</string>
     <string name="menu_user">User</string>
+    <string name="menu_supplier">Supplier</string>
     <string name="menu_settings">Pengaturan</string>
 
     <!-- Material -->
@@ -71,6 +72,21 @@
     <string name="satuan_empty">Belum ada satuan</string>
     <string name="satuan_delete_title">Hapus satuan?</string>
     <string name="satuan_delete_message">%1$s akan dihapus permanen.</string>
+
+    <!-- Supplier -->
+    <string name="supplier_title">Supplier</string>
+    <string name="supplier_add">Tambah Supplier</string>
+    <string name="supplier_edit">Edit Supplier</string>
+    <string name="supplier_form_nama">Nama supplier</string>
+    <string name="supplier_form_kontak">Kontak (opsional)</string>
+    <string name="supplier_form_alamat">Alamat (opsional)</string>
+    <string name="supplier_form_aktif">Aktif</string>
+    <string name="supplier_status_aktif">Aktif</string>
+    <string name="supplier_status_nonaktif">Nonaktif</string>
+    <string name="supplier_empty">Belum ada supplier</string>
+    <string name="supplier_empty_desc">Tekan + untuk menambah</string>
+    <string name="supplier_delete_title">Hapus supplier?</string>
+    <string name="supplier_delete_message">%1$s akan dihapus. Material yang terkait akan tetap ada tanpa supplier.</string>
 
     <!-- POS -->
     <string name="pos_title">Transaksi Baru</string>
