@@ -130,7 +130,13 @@
                         android:layout_height="@dimen/icon_wrap_sm"
                         android:background="@color/primary_container">
 
-                        <!-- TODO: moon icon -->
+                        <ImageView
+                            android:layout_width="@dimen/icon_md"
+                            android:layout_height="@dimen/icon_md"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/settings_mode_gelap"
+                            android:src="@drawable/ic_dark_mode"
+                            app:tint="@color/on_primary_container" />
                     </FrameLayout>
 
                     <TextView
@@ -163,7 +169,6 @@
                 style="@style/Widget.Materialku.CardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_md"
                 app:contentPadding="@dimen/padding_card">
 
                 <LinearLayout
@@ -177,7 +182,13 @@
                         android:layout_height="@dimen/icon_wrap_sm"
                         android:background="@color/secondary_container">
 
-                        <!-- TODO: info icon -->
+                        <ImageView
+                            android:layout_width="@dimen/icon_md"
+                            android:layout_height="@dimen/icon_md"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/settings_versi"
+                            android:src="@drawable/ic_info"
+                            app:tint="@color/on_secondary_container" />
                     </FrameLayout>
 
                     <TextView
@@ -198,88 +209,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Privasi -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/rowPrivasi"
-                style="@style/Widget.Materialku.CardView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_md"
-                android:clickable="true"
-                android:focusable="true"
-                app:contentPadding="@dimen/padding_card">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="@dimen/icon_wrap_sm"
-                        android:layout_height="@dimen/icon_wrap_sm"
-                        android:background="@color/secondary_container">
-
-                        <!-- TODO: file-text icon -->
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_md"
-                        android:layout_weight="1"
-                        android:text="@string/settings_privasi"
-                        android:textAppearance="@style/TextAppearance.Materialku.Body"
-                        android:textColor="@color/on_surface" />
-
-                    <ImageView
-                        android:layout_width="@dimen/icon_md"
-                        android:layout_height="@dimen/icon_md"
-                        android:src="@drawable/ic_chevron_right"
-                        app:tint="@color/outline" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Bantuan -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/rowBantuan"
-                style="@style/Widget.Materialku.CardView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                app:contentPadding="@dimen/padding_card">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="@dimen/icon_wrap_sm"
-                        android:layout_height="@dimen/icon_wrap_sm"
-                        android:background="@color/secondary_container">
-
-                        <!-- TODO: help icon -->
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_md"
-                        android:layout_weight="1"
-                        android:text="@string/settings_bantuan"
-                        android:textAppearance="@style/TextAppearance.Materialku.Body"
-                        android:textColor="@color/on_surface" />
-
-                    <ImageView
-                        android:layout_width="@dimen/icon_md"
-                        android:layout_height="@dimen/icon_md"
-                        android:src="@drawable/ic_chevron_right"
-                        app:tint="@color/outline" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
 

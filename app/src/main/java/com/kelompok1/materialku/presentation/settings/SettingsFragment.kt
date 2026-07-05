@@ -1,6 +1,5 @@
 package com.kelompok1.materialku.presentation.settings
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,12 +21,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     override fun setupViews() {
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
-        }
-        binding.rowPrivasi.setOnClickListener {
-            Toast.makeText(requireContext(), R.string.settings_soon, Toast.LENGTH_SHORT).show()
-        }
-        binding.rowBantuan.setOnClickListener {
-            Toast.makeText(requireContext(), R.string.settings_soon, Toast.LENGTH_SHORT).show()
         }
     }
 
