@@ -10,7 +10,7 @@
     <string name="login_username_hint">Masukkan username</string>
     <string name="login_password_hint">Masukkan password</string>
     <string name="login_button">MASUK</string>
-    <string name="login_version">v1.0.0</string>
+    <string name="login_version">v1.1.0</string>
 
     <!-- Dashboard -->
     <string name="dashboard_menu_title">MENU UTAMA</string>
