@@ -1,1 +1,1 @@
-Usecase diagram available at docs folder !
+Link Demo Aplikasi: https://youtu.be/MpwYvz41m-M
